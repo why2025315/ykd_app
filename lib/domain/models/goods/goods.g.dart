@@ -14,7 +14,9 @@ _goods _$goodsFromJson(Map<String, dynamic> json) => _goods(
   categoryName: json['categoryName'] as String?,
   goodsSn: json['goodsSn'] as String?,
   name: json['name'] as String?,
-  gallery: json['gallery'] as String?,
+  gallery: (json['gallery'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
   keywords: json['keywords'] as String?,
   goodsBrief: json['goodsBrief'] as String?,
   isOnSale: (json['isOnSale'] as num?)?.toInt(),

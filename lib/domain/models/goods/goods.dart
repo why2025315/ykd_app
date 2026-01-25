@@ -13,7 +13,7 @@ abstract class Goods with _$Goods {
     String? categoryName,
     String? goodsSn,
     String? name,
-    String? gallery,
+    List<String>? gallery,
     String? keywords,
     String? goodsBrief,
     int? isOnSale,

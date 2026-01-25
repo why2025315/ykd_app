@@ -1,22 +1,49 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ykd_tea_app/config/constants.dart';
-import 'package:ykd_tea_app/ui/goods_detail/widgets/card_custom.dart';
+import 'package:ykd_tea_app/ui/core/ui/network_image_custom.dart';
+import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
 import 'package:ykd_tea_app/ui/goods_detail/widgets/goods_desc.dart';
 import 'package:ykd_tea_app/ui/goods_detail/widgets/goods_top_card.dart';
 import 'package:ykd_tea_app/ui/goods_detail/widgets/normal_querstion.dart';
 
-class GoodsDetailScreen extends StatelessWidget {
-  const GoodsDetailScreen({super.key, required this.goodsId});
+class GoodsDetailScreen extends StatefulWidget {
+  const GoodsDetailScreen({super.key, required this.viewModel});
 
-  final String goodsId;
+  final GoodsDetailViewModel viewModel;
+
+  @override
+  State<GoodsDetailScreen> createState() => _GoodsDetailScreenState();
+}
+
+class _GoodsDetailScreenState extends State<GoodsDetailScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.viewModel.addListener(_onViewModelChanged);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    widget.viewModel.removeListener(_onViewModelChanged);
+    super.dispose();
+  }
+
+  void _onViewModelChanged() {
+    // 当viewModel数据变化时，重建UI
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
+    final goods = widget.viewModel.goods;
+    if (goods == null) return const Center(child: CircularProgressIndicator());
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: const Text('商品详情'),
             pinned: false,
             expandedHeight: 450,
             backgroundColor: Colors.transparent,
@@ -26,9 +53,8 @@ class GoodsDetailScreen extends StatelessWidget {
                   SizedBox(
                     height: 300,
                     width: MediaQuery.of(context).size.width,
-                    child: Image.asset(
-                      'assets/images/banner.png',
-                      fit: BoxFit.cover,
+                    child: NetworkImageCustom(
+                      imageUrl: goods?.info?.gallery?[0] ?? '',
                     ),
                   ),
                   Positioned(
@@ -37,7 +63,7 @@ class GoodsDetailScreen extends StatelessWidget {
                     right: 0,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: GoodsTopCard(),
+                      child: GoodsTopCard(goods: goods?.info),
                     ),
                   ),
                 ],
@@ -51,7 +77,7 @@ class GoodsDetailScreen extends StatelessWidget {
                 right: 15.0,
                 bottom: 15.0,
               ),
-              child: GoodsDesc(),
+              child: GoodsDesc(goodsDesc: goods?.info?.goodsDesc ?? ''),
             ),
           ),
           SliverToBoxAdapter(
@@ -61,7 +87,7 @@ class GoodsDetailScreen extends StatelessWidget {
                 right: 15.0,
                 bottom: 15.0,
               ),
-              child: NormalQuerstion(),
+              child: NormalQuerstion(questions: goods?.issue ?? []),
             ),
           ),
         ],
@@ -84,25 +110,47 @@ class GoodsDetailScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
           child: Row(
             children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                child: TextButton(
+                  onPressed: () {},
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Icon(Icons.headphones), Text('客服')],
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.headphones,
+                        size: 22,
+                        color: Color(0xFF333333),
+                      ),
+                      Text(
+                        '客服',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF333333),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              FilledButton(
-                onPressed: () {},
-                child: const Text('加入购物车'),
-                style: filledButtonStyle,
-              ),
-              SizedBox(width: 15),
-              FilledButton(
-                onPressed: () {},
-                child: const Text('立即购买'),
-                style: filledButtonStyle,
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FilledButton(
+                      onPressed: () {},
+                      style: filledButtonStyle,
+                      child: const Text('加入购物车'),
+                    ),
+                    SizedBox(width: 15),
+                    FilledButton(
+                      onPressed: () {},
+                      style: filledButtonStyle,
+                      child: const Text('立即购买'),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

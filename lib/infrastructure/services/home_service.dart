@@ -4,7 +4,10 @@ import 'package:ykd_tea_app/infrastructure/services/model/home/home_service_mode
 import 'package:ykd_tea_app/utils/result.dart';
 
 class HomeService {
-  final ApiClient _client = ApiClient();
+  HomeService({required ApiClient apiClient}) : _client = apiClient;
+
+  final ApiClient _client;
+
   Future<Result<HomeServiceModel>> getHomeData() async {
     try {
       final response = await _client.get('/wx/home/index');

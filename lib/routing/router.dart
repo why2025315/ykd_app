@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:ykd_tea_app/infrastructure/network/api_client.dart';
+import 'package:ykd_tea_app/infrastructure/services/goods_service.dart';
 import 'package:ykd_tea_app/routing/routes.dart';
 import 'package:ykd_tea_app/ui/core/ui/bottom_navigation_bar_custom.dart';
+import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
 import 'package:ykd_tea_app/ui/goods_detail/widgets/goods_detail_screen.dart';
 import 'package:ykd_tea_app/ui/home/view_models/home_view_model.dart';
 import 'package:ykd_tea_app/ui/home/widgets/home_screen.dart';
@@ -43,8 +46,15 @@ GoRouter router() => GoRouter(
     ),
     GoRoute(
       path: Routes.goodsDetail,
-      builder: (context, state) =>
-          GoodsDetailScreen(goodsId: state.pathParameters['goodsId']!),
+      builder: (context, state) {
+        final _goodsId = state.pathParameters['goodsId'];
+        // 从Provider获取viewModel，避免每次重建
+        final viewModel = GoodsDetailViewModel(
+          goodsService: context.read<GoodsService>(),
+          goodsId: _goodsId!,
+        );
+        return GoodsDetailScreen(viewModel: viewModel);
+      },
     ),
   ],
 );
