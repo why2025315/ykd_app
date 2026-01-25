@@ -9,8 +9,8 @@ class ApiClient {
     _dio = Dio(
       BaseOptions(
         baseUrl: 'https://ykd.nongeasy.com/ykdnongeast/',
-        connectTimeout: const Duration(seconds: 100),
-        receiveTimeout: const Duration(seconds: 100),
+        connectTimeout: const Duration(seconds: 1000),
+        receiveTimeout: const Duration(seconds: 1000),
         headers: {'Content-Type': 'application/json'},
       ),
     );

@@ -17,5 +17,5 @@ final ThemeData themeDataConfig = ThemeData(
   // This works for code too, not just values: Most code changes can be
   // tested with just a hot reload.
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
-  scaffoldBackgroundColor: Colors.white, // 设置背景色为村白色
+  scaffoldBackgroundColor: Color(0xfff7f7f7), // 设置背景色为村白色
 );

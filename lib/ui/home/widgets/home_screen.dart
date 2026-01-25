@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
     _initTabController();
     widget.viewModel.addListener(_onViewModelChanged);
   }
@@ -56,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final viewModel = widget.viewModel;
+
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -77,60 +79,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 list: viewModel.homeData?.pageList ?? [],
               ),
             ),
-            SliverPersistentHeader(
-              delegate: _SliverTabBarDelegate(
-                TabBar(
-                  controller: _tabController,
-                  isScrollable: true,
-                  tabs: tabs.map((tab) => Tab(text: tab)).toList(),
-                  indicatorColor: Color(0xFF57A749),
-                  indicator: UnderlineTabIndicator(
-                    borderRadius: BorderRadius.circular(3),
-                    borderSide: BorderSide(width: 3, color: Color(0xFF57A749)),
-                    insets: EdgeInsets.symmetric(
-                      horizontal: 30,
-                    ), // 调整左右内边距，减小指示器宽度
+            if (tabs.isNotEmpty)
+              SliverPersistentHeader(
+                delegate: _SliverTabBarDelegate(
+                  TabBar(
+                    controller: _tabController,
+                    isScrollable: true,
+                    tabs: tabs.map((tab) => Tab(text: tab)).toList(),
+                    indicatorColor: Color(0xFF57A749),
+                    indicator: UnderlineTabIndicator(
+                      borderRadius: BorderRadius.circular(3),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Color(0xFF57A749),
+                      ),
+                      insets: EdgeInsets.symmetric(
+                        horizontal: 30,
+                      ), // 调整左右内边距，减小指示器宽度
+                    ),
+                    labelPadding: EdgeInsets.symmetric(horizontal: 15),
+                    padding: EdgeInsets.symmetric(horizontal: 0),
+                    labelColor: Color(0xFF57A749),
+                    dividerColor: Colors.transparent,
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                    unselectedLabelColor: Color(0xFF767676),
+                    unselectedLabelStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                  labelPadding: EdgeInsets.symmetric(horizontal: 15),
-                  padding: EdgeInsets.symmetric(horizontal: 0),
-                  labelColor: Color(0xFF57A749),
-                  dividerColor: Colors.transparent,
-                  labelStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                  ),
-                  unselectedLabelColor: Color(0xFF767676),
-                  unselectedLabelStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                  ),
+                  backgroundColor: Colors.white,
                 ),
-                backgroundColor: Colors.white,
+                pinned: true,
               ),
-              pinned: true,
-            ),
           ];
         },
-        body: TabBarView(
-          controller: _tabController,
-          children: tabs.map((tab) => _buildTabContent(tab)).toList(),
-        ),
+        body: tabs.isNotEmpty
+            ? TabBarView(
+                controller: _tabController,
+                children: tabs.map((tab) => _buildTabContent(tab)).toList(),
+              )
+            : Center(child: CircularProgressIndicator()),
       ),
     );
   }
 
   Widget _buildTabContent(String tabName) {
     final goodsList = widget.viewModel.homeData?.homePageGoods[tabName] ?? [];
-    // return MasonryGridView.count(
-    //   crossAxisCount: 2, // 一行两列
-    //   mainAxisSpacing: 8,
-    //   crossAxisSpacing: 8,
-    //   itemCount: goodsList.length,
-    //   itemBuilder: (context, index) {
-    //     final goods = goodsList[index];
-    //     return GoodsCard(goods: goods);
-    //   },
-    // );
     return MasonryGridView.count(
       padding: const EdgeInsets.all(10),
       crossAxisCount: 2, // 一行两列
