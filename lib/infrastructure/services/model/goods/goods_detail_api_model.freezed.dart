@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GoodsDetailApiModel {
 
- List<Specification>? get specificationList; List<Question>? get issue; int? get userHasCollect; List<dynamic>? get attribute; Goods? get info;
+ List<Specification>? get specificationList; List<Question>? get issue; int? get userHasCollect; List<dynamic>? get attribute; Goods? get info; List<Product>? get productList;
 /// Create a copy of GoodsDetailApiModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $GoodsDetailApiModelCopyWith<GoodsDetailApiModel> get copyWith => _$GoodsDetailA
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GoodsDetailApiModel&&const DeepCollectionEquality().equals(other.specificationList, specificationList)&&const DeepCollectionEquality().equals(other.issue, issue)&&(identical(other.userHasCollect, userHasCollect) || other.userHasCollect == userHasCollect)&&const DeepCollectionEquality().equals(other.attribute, attribute)&&(identical(other.info, info) || other.info == info));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GoodsDetailApiModel&&const DeepCollectionEquality().equals(other.specificationList, specificationList)&&const DeepCollectionEquality().equals(other.issue, issue)&&(identical(other.userHasCollect, userHasCollect) || other.userHasCollect == userHasCollect)&&const DeepCollectionEquality().equals(other.attribute, attribute)&&(identical(other.info, info) || other.info == info)&&const DeepCollectionEquality().equals(other.productList, productList));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(specificationList),const DeepCollectionEquality().hash(issue),userHasCollect,const DeepCollectionEquality().hash(attribute),info);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(specificationList),const DeepCollectionEquality().hash(issue),userHasCollect,const DeepCollectionEquality().hash(attribute),info,const DeepCollectionEquality().hash(productList));
 
 @override
 String toString() {
-  return 'GoodsDetailApiModel(specificationList: $specificationList, issue: $issue, userHasCollect: $userHasCollect, attribute: $attribute, info: $info)';
+  return 'GoodsDetailApiModel(specificationList: $specificationList, issue: $issue, userHasCollect: $userHasCollect, attribute: $attribute, info: $info, productList: $productList)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $GoodsDetailApiModelCopyWith<$Res>  {
   factory $GoodsDetailApiModelCopyWith(GoodsDetailApiModel value, $Res Function(GoodsDetailApiModel) _then) = _$GoodsDetailApiModelCopyWithImpl;
 @useResult
 $Res call({
- List<Specification>? specificationList, List<Question>? issue, int? userHasCollect, List<dynamic>? attribute, Goods? info
+ List<Specification>? specificationList, List<Question>? issue, int? userHasCollect, List<dynamic>? attribute, Goods? info, List<Product>? productList
 });
 
 
@@ -65,14 +65,15 @@ class _$GoodsDetailApiModelCopyWithImpl<$Res>
 
 /// Create a copy of GoodsDetailApiModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? specificationList = freezed,Object? issue = freezed,Object? userHasCollect = freezed,Object? attribute = freezed,Object? info = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? specificationList = freezed,Object? issue = freezed,Object? userHasCollect = freezed,Object? attribute = freezed,Object? info = freezed,Object? productList = freezed,}) {
   return _then(_self.copyWith(
 specificationList: freezed == specificationList ? _self.specificationList : specificationList // ignore: cast_nullable_to_non_nullable
 as List<Specification>?,issue: freezed == issue ? _self.issue : issue // ignore: cast_nullable_to_non_nullable
 as List<Question>?,userHasCollect: freezed == userHasCollect ? _self.userHasCollect : userHasCollect // ignore: cast_nullable_to_non_nullable
 as int?,attribute: freezed == attribute ? _self.attribute : attribute // ignore: cast_nullable_to_non_nullable
 as List<dynamic>?,info: freezed == info ? _self.info : info // ignore: cast_nullable_to_non_nullable
-as Goods?,
+as Goods?,productList: freezed == productList ? _self.productList : productList // ignore: cast_nullable_to_non_nullable
+as List<Product>?,
   ));
 }
 /// Create a copy of GoodsDetailApiModel
@@ -169,10 +170,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Specification>? specificationList,  List<Question>? issue,  int? userHasCollect,  List<dynamic>? attribute,  Goods? info)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Specification>? specificationList,  List<Question>? issue,  int? userHasCollect,  List<dynamic>? attribute,  Goods? info,  List<Product>? productList)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GoodsDetailApiModel() when $default != null:
-return $default(_that.specificationList,_that.issue,_that.userHasCollect,_that.attribute,_that.info);case _:
+return $default(_that.specificationList,_that.issue,_that.userHasCollect,_that.attribute,_that.info,_that.productList);case _:
   return orElse();
 
 }
@@ -190,10 +191,10 @@ return $default(_that.specificationList,_that.issue,_that.userHasCollect,_that.a
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Specification>? specificationList,  List<Question>? issue,  int? userHasCollect,  List<dynamic>? attribute,  Goods? info)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Specification>? specificationList,  List<Question>? issue,  int? userHasCollect,  List<dynamic>? attribute,  Goods? info,  List<Product>? productList)  $default,) {final _that = this;
 switch (_that) {
 case _GoodsDetailApiModel():
-return $default(_that.specificationList,_that.issue,_that.userHasCollect,_that.attribute,_that.info);case _:
+return $default(_that.specificationList,_that.issue,_that.userHasCollect,_that.attribute,_that.info,_that.productList);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -210,10 +211,10 @@ return $default(_that.specificationList,_that.issue,_that.userHasCollect,_that.a
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Specification>? specificationList,  List<Question>? issue,  int? userHasCollect,  List<dynamic>? attribute,  Goods? info)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Specification>? specificationList,  List<Question>? issue,  int? userHasCollect,  List<dynamic>? attribute,  Goods? info,  List<Product>? productList)?  $default,) {final _that = this;
 switch (_that) {
 case _GoodsDetailApiModel() when $default != null:
-return $default(_that.specificationList,_that.issue,_that.userHasCollect,_that.attribute,_that.info);case _:
+return $default(_that.specificationList,_that.issue,_that.userHasCollect,_that.attribute,_that.info,_that.productList);case _:
   return null;
 
 }
@@ -225,7 +226,7 @@ return $default(_that.specificationList,_that.issue,_that.userHasCollect,_that.a
 @JsonSerializable()
 
 class _GoodsDetailApiModel implements GoodsDetailApiModel {
-  const _GoodsDetailApiModel({final  List<Specification>? specificationList, final  List<Question>? issue, this.userHasCollect, final  List<dynamic>? attribute, this.info}): _specificationList = specificationList,_issue = issue,_attribute = attribute;
+  const _GoodsDetailApiModel({final  List<Specification>? specificationList, final  List<Question>? issue, this.userHasCollect, final  List<dynamic>? attribute, this.info, final  List<Product>? productList}): _specificationList = specificationList,_issue = issue,_attribute = attribute,_productList = productList;
   factory _GoodsDetailApiModel.fromJson(Map<String, dynamic> json) => _$GoodsDetailApiModelFromJson(json);
 
  final  List<Specification>? _specificationList;
@@ -257,6 +258,15 @@ class _GoodsDetailApiModel implements GoodsDetailApiModel {
 }
 
 @override final  Goods? info;
+ final  List<Product>? _productList;
+@override List<Product>? get productList {
+  final value = _productList;
+  if (value == null) return null;
+  if (_productList is EqualUnmodifiableListView) return _productList;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of GoodsDetailApiModel
 /// with the given fields replaced by the non-null parameter values.
@@ -271,16 +281,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GoodsDetailApiModel&&const DeepCollectionEquality().equals(other._specificationList, _specificationList)&&const DeepCollectionEquality().equals(other._issue, _issue)&&(identical(other.userHasCollect, userHasCollect) || other.userHasCollect == userHasCollect)&&const DeepCollectionEquality().equals(other._attribute, _attribute)&&(identical(other.info, info) || other.info == info));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GoodsDetailApiModel&&const DeepCollectionEquality().equals(other._specificationList, _specificationList)&&const DeepCollectionEquality().equals(other._issue, _issue)&&(identical(other.userHasCollect, userHasCollect) || other.userHasCollect == userHasCollect)&&const DeepCollectionEquality().equals(other._attribute, _attribute)&&(identical(other.info, info) || other.info == info)&&const DeepCollectionEquality().equals(other._productList, _productList));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_specificationList),const DeepCollectionEquality().hash(_issue),userHasCollect,const DeepCollectionEquality().hash(_attribute),info);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_specificationList),const DeepCollectionEquality().hash(_issue),userHasCollect,const DeepCollectionEquality().hash(_attribute),info,const DeepCollectionEquality().hash(_productList));
 
 @override
 String toString() {
-  return 'GoodsDetailApiModel(specificationList: $specificationList, issue: $issue, userHasCollect: $userHasCollect, attribute: $attribute, info: $info)';
+  return 'GoodsDetailApiModel(specificationList: $specificationList, issue: $issue, userHasCollect: $userHasCollect, attribute: $attribute, info: $info, productList: $productList)';
 }
 
 
@@ -291,7 +301,7 @@ abstract mixin class _$GoodsDetailApiModelCopyWith<$Res> implements $GoodsDetail
   factory _$GoodsDetailApiModelCopyWith(_GoodsDetailApiModel value, $Res Function(_GoodsDetailApiModel) _then) = __$GoodsDetailApiModelCopyWithImpl;
 @override @useResult
 $Res call({
- List<Specification>? specificationList, List<Question>? issue, int? userHasCollect, List<dynamic>? attribute, Goods? info
+ List<Specification>? specificationList, List<Question>? issue, int? userHasCollect, List<dynamic>? attribute, Goods? info, List<Product>? productList
 });
 
 
@@ -308,14 +318,15 @@ class __$GoodsDetailApiModelCopyWithImpl<$Res>
 
 /// Create a copy of GoodsDetailApiModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? specificationList = freezed,Object? issue = freezed,Object? userHasCollect = freezed,Object? attribute = freezed,Object? info = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? specificationList = freezed,Object? issue = freezed,Object? userHasCollect = freezed,Object? attribute = freezed,Object? info = freezed,Object? productList = freezed,}) {
   return _then(_GoodsDetailApiModel(
 specificationList: freezed == specificationList ? _self._specificationList : specificationList // ignore: cast_nullable_to_non_nullable
 as List<Specification>?,issue: freezed == issue ? _self._issue : issue // ignore: cast_nullable_to_non_nullable
 as List<Question>?,userHasCollect: freezed == userHasCollect ? _self.userHasCollect : userHasCollect // ignore: cast_nullable_to_non_nullable
 as int?,attribute: freezed == attribute ? _self._attribute : attribute // ignore: cast_nullable_to_non_nullable
 as List<dynamic>?,info: freezed == info ? _self.info : info // ignore: cast_nullable_to_non_nullable
-as Goods?,
+as Goods?,productList: freezed == productList ? _self._productList : productList // ignore: cast_nullable_to_non_nullable
+as List<Product>?,
   ));
 }
 

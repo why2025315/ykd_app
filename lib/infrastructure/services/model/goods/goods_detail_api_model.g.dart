@@ -19,6 +19,9 @@ _GoodsDetailApiModel _$GoodsDetailApiModelFromJson(Map<String, dynamic> json) =>
       info: json['info'] == null
           ? null
           : Goods.fromJson(json['info'] as Map<String, dynamic>),
+      productList: (json['productList'] as List<dynamic>?)
+          ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$GoodsDetailApiModelToJson(
@@ -29,4 +32,5 @@ Map<String, dynamic> _$GoodsDetailApiModelToJson(
   'userHasCollect': instance.userHasCollect,
   'attribute': instance.attribute,
   'info': instance.info,
+  'productList': instance.productList,
 };

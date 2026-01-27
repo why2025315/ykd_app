@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ykd_tea_app/config/constants.dart';
 
 final ThemeData themeDataConfig = ThemeData(
   // This is the theme of your application.
@@ -16,6 +17,6 @@ final ThemeData themeDataConfig = ThemeData(
   //
   // This works for code too, not just values: Most code changes can be
   // tested with just a hot reload.
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
-  scaffoldBackgroundColor: Color(0xfff7f7f7), // 设置背景色为村白色
+  colorScheme: ColorScheme.fromSeed(seedColor: primaryColor),
+  scaffoldBackgroundColor: Colors.white, // 设置背景色为村白色
 );

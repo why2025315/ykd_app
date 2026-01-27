@@ -84,8 +84,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 delegate: _SliverTabBarDelegate(
                   TabBar(
                     controller: _tabController,
-                    isScrollable: true,
                     tabs: tabs.map((tab) => Tab(text: tab)).toList(),
+                    isScrollable: true,
                     indicatorColor: Color(0xFF57A749),
                     indicator: UnderlineTabIndicator(
                       borderRadius: BorderRadius.circular(3),

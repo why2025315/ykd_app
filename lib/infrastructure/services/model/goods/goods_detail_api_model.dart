@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ykd_tea_app/domain/models/goods/goods.dart';
+import 'package:ykd_tea_app/domain/models/product/product.dart';
 import 'package:ykd_tea_app/domain/models/question/question.dart';
 import 'package:ykd_tea_app/domain/models/specification/specification.dart';
 part 'goods_detail_api_model.freezed.dart';
@@ -13,6 +14,7 @@ abstract class GoodsDetailApiModel with _$GoodsDetailApiModel {
     int? userHasCollect,
     List<dynamic>? attribute,
     Goods? info,
+    List<Product>? productList,
   }) = _GoodsDetailApiModel;
 
   factory GoodsDetailApiModel.fromJson(Map<String, Object?> json) =>

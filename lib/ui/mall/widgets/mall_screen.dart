@@ -1,55 +1,181 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:ykd_tea_app/config/constants.dart';
+import 'package:ykd_tea_app/ui/core/ui/goods_card.dart';
+import 'package:ykd_tea_app/ui/core/ui/search_bar_custom.dart';
+import 'package:ykd_tea_app/ui/mall/view_models/mall_view_model.dart';
 
 class MallScreen extends StatelessWidget {
-  const MallScreen({super.key});
+  const MallScreen({super.key, required this.viewModel});
+
+  final MallViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
-    return TabInCustomScrollView();
+    return TabInCustomScrollView(viewModel: viewModel);
   }
 }
 
 class TabInCustomScrollView extends StatefulWidget {
-  const TabInCustomScrollView({super.key});
+  const TabInCustomScrollView({super.key, required this.viewModel});
+
+  final MallViewModel viewModel;
 
   @override
   _TabInCustomScrollViewState createState() => _TabInCustomScrollViewState();
 }
 
 class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late TabController _tabController;
-  final List<String> tabs = ['Tab1', 'Tab2', 'Tab3'];
+
+  late List<Tab> _tabs = [];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: tabs.length, vsync: this);
+    widget.viewModel.addListener(_onViewModelChange);
+    widget.viewModel.loadCategoryList.execute();
+    widget.viewModel.loadCategoryList.addListener(_onLoadCategoryList);
+    _tabController = TabController(
+      length: _tabs.length,
+      vsync: this,
+      initialIndex: widget.viewModel.currentIndex,
+    );
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    widget.viewModel.removeListener(_onViewModelChange);
     super.dispose();
+  }
+
+  void _onLoadCategoryList() {
+    if (widget.viewModel.loadCategoryList.completed) {
+      _tabs = widget.viewModel.categoryList.map((category) {
+        return Tab(text: category.name);
+      }).toList();
+      if (_tabController.length != _tabs.length) {
+        _tabController.dispose();
+      }
+      _tabController = TabController(
+        length: _tabs.length,
+        vsync: this,
+        initialIndex: widget.viewModel.currentIndex,
+      );
+      widget.viewModel.loadCategoryList.removeListener(_onLoadCategoryList);
+    }
+  }
+
+  void _onViewModelChange() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
-            // 顶部 SliverAppBar
-            SliverAppBar(
-              expandedHeight: 200,
-              floating: false,
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text('CustomScrollView with Tabs'),
-                background: Container(
-                  color: Colors.blue,
-                  child: Center(child: Text('Header Content')),
+            SliverToBoxAdapter(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/bg.png'),
+                    fit: BoxFit.fitWidth,
+                    alignment: Alignment.topCenter,
+                  ),
                 ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 10.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 44,
+                      child: Text('一刻达商超', style: KtextStyle.titleText),
+                    ),
+                    Row(
+                      spacing: 16,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Stack(
+                            children: [
+                              AspectRatio(
+                                aspectRatio: 167 / 87,
+                                child: Image.asset(
+                                  'assets/images/bg_ls.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned.fill(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    spacing: 10.0,
+                                    children: [
+                                      Text('零食便利', style: KtextStyle.titleText),
+                                      Text('零食/饮料/槟榔'),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Stack(
+                            children: [
+                              AspectRatio(
+                                aspectRatio: 167 / 87,
+                                child: Image.asset(
+                                  'assets/images/bg_bh.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned.fill(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    spacing: 10.0,
+                                    children: [
+                                      Text('品质百货', style: KtextStyle.titleText),
+                                      Text('杯子/家居/茶具'),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                padding: const EdgeInsets.all(20.0),
+                child: SearchBarCustom(),
               ),
             ),
 
@@ -58,12 +184,34 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
               delegate: _SliverTabBarDelegate(
                 TabBar(
                   controller: _tabController,
-                  tabs: tabs.map((tab) => Tab(text: tab)).toList(),
-                  indicatorColor: Colors.white,
-                  labelColor: Colors.white,
-                  unselectedLabelColor: Colors.white70,
+                  tabs: _tabs,
+                  isScrollable: true,
+                  indicatorColor: Color(0xFF57A749),
+                  indicator: UnderlineTabIndicator(
+                    borderRadius: BorderRadius.circular(3),
+                    borderSide: BorderSide(width: 3, color: Color(0xFF57A749)),
+                    insets: EdgeInsets.symmetric(
+                      horizontal: 30,
+                    ), // 调整左右内边距，减小指示器宽度
+                  ),
+                  labelPadding: EdgeInsets.symmetric(horizontal: 15),
+                  padding: EdgeInsets.symmetric(horizontal: 0),
+                  labelColor: Color(0xFF57A749),
+                  dividerColor: Colors.transparent,
+                  labelStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                  unselectedLabelColor: Color(0xFF767676),
+                  unselectedLabelStyle: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  onTap: (index) {
+                    widget.viewModel.currentIndex = index;
+                  },
                 ),
-                backgroundColor: Colors.blue[700]!,
+                backgroundColor: Colors.white,
               ),
               pinned: true,
             ),
@@ -71,35 +219,52 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
         },
         body: TabBarView(
           controller: _tabController,
-          children: tabs.map((tab) => _buildTabContent(tab)).toList(),
+          children: _tabs
+              .map((Tab tab) => _buildTabContent(tab.text!))
+              .toList(),
         ),
       ),
     );
   }
 
   Widget _buildTabContent(String tabName) {
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Text(
-              '$tabName Content',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) => ListTile(
-              leading: CircleAvatar(child: Text('${index + 1}')),
-              title: Text('$tabName Item ${index + 1}'),
-              subtitle: Text('This is item content in $tabName'),
-            ),
-            childCount: 20,
-          ),
-        ),
-      ],
+    final tabIndex = _tabs.indexWhere((element) => element.text == tabName);
+    final tabData = widget.viewModel.getGoodsListByTabIndex(tabIndex);
+    if (tabData == null) {
+      return Center(child: Text('暂无数据'));
+    }
+
+    return NotificationListener<ScrollNotification>(
+      onNotification: (scrollNotification) {
+        if (scrollNotification is ScrollEndNotification) {
+          final metrics = scrollNotification.metrics;
+          if (metrics.pixels == metrics.maxScrollExtent) {
+            // 滚动到底部，加载更多数据
+            widget.viewModel.loadMoreGoods(tabIndex);
+          }
+        }
+        return false;
+      },
+      child: MasonryGridView.count(
+        padding: const EdgeInsets.all(10),
+        crossAxisCount: 2, // 一行两列
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        itemCount: tabData.goodsList?.length ?? 0,
+        itemBuilder: (context, index) {
+          if (index == tabData.goodsList?.length) {
+            // 显示加载更多指示器
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          final goods = tabData.goodsList?[index];
+          return GoodsCard(goods: goods!);
+        },
+      ),
     );
   }
 }
