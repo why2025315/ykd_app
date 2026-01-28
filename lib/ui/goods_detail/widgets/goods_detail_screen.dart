@@ -58,7 +58,7 @@ class _GoodsDetailScreenState extends State<GoodsDetailScreen> {
                         height: 300,
                         width: MediaQuery.of(context).size.width,
                         child: NetworkImageCustom(
-                          imageUrl: goods?.info?.gallery?[0] ?? '',
+                          imageUrl: goods.info?.gallery?[0] ?? '',
                         ),
                       ),
                       Positioned(
@@ -67,7 +67,7 @@ class _GoodsDetailScreenState extends State<GoodsDetailScreen> {
                         right: 0,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: GoodsTopCard(goods: goods?.info),
+                          child: GoodsTopCard(goods: goods.info!),
                         ),
                       ),
                     ],

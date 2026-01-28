@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ykd_tea_app/infrastructure/services/auth_service.dart';
 import 'package:ykd_tea_app/ui/login/view_models/login_view_model.dart';
 
@@ -19,6 +20,24 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController(
     text: '123888',
   );
+
+  @override
+  initState() {
+    super.initState();
+    widget.viewModel.login.addListener(_onLoadResult);
+  }
+
+  @override
+  void dispose() {
+    widget.viewModel.login.removeListener(_onLoadResult);
+    super.dispose();
+  }
+
+  void _onLoadResult() {
+    if (widget.viewModel.login.completed) {
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

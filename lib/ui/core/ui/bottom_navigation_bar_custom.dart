@@ -33,7 +33,9 @@ class BottomNavigationBarCustom extends StatelessWidget {
 
   static int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).uri.path;
-    return TabItem.values.indexWhere((item) => location.startsWith(item.route));
+    final index = TabItem.values.indexWhere((item) => location.startsWith(item.route));
+    // 确保返回有效的索引，默认为 0
+    return index >= 0 ? index : 0;
   }
 
   void _onItemTapped(int index, BuildContext context) {

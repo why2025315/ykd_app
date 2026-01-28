@@ -1,12 +1,19 @@
 import 'package:dio/dio.dart';
+import 'package:ykd_tea_app/domain/models/user/user_manager.dart';
 import 'package:ykd_tea_app/routing/router_util.dart';
 
 class AuthInterceptor extends Interceptor {
+  final UserManager userManager;
+
+  AuthInterceptor({required this.userManager});
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // 添加 token
-    final token = 'your_token_here';
-    options.headers['Authorization'] = 'Bearer $token';
+    final token = userManager.token;
+    if (token != null && token.isNotEmpty) {
+      options.headers['wx-nongeasy-token'] = token;
+    }
     super.onRequest(options, handler);
   }
 

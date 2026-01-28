@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:ykd_tea_app/infrastructure/services/goods_service.dart';
+import 'package:ykd_tea_app/config/app_ui_state.dart';
 import 'package:ykd_tea_app/routing/routes.dart';
 import 'package:ykd_tea_app/ui/core/ui/bottom_navigation_bar_custom.dart';
 import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
@@ -13,6 +13,8 @@ import 'package:ykd_tea_app/ui/login/widgets/login_screen.dart';
 import 'package:ykd_tea_app/ui/mall/view_models/mall_view_model.dart';
 import 'package:ykd_tea_app/ui/mall/widgets/mall_screen.dart';
 import 'package:ykd_tea_app/ui/mime/widgets/mine_screen.dart';
+import 'package:ykd_tea_app/ui/sub_category/view_models/sub_category_view_model.dart';
+import 'package:ykd_tea_app/ui/sub_category/widgets/sub_category_screen.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -22,9 +24,14 @@ GoRouter router() => GoRouter(
   routes: [
     ShellRoute(
       builder: (context, state, child) {
+        // 从 context 中获取 AppUIState
+        final appUIState = context.watch<AppUIState>();
+        final bottomBarVisible = appUIState.isBottomBarVisible;
         return Scaffold(
           body: child,
-          bottomNavigationBar: BottomNavigationBarCustom(),
+          bottomNavigationBar: bottomBarVisible
+              ? BottomNavigationBarCustom()
+              : null,
         );
       },
       routes: [
@@ -50,12 +57,21 @@ GoRouter router() => GoRouter(
     GoRoute(
       path: Routes.goodsDetail,
       builder: (context, state) {
-        final _goodsId = state.pathParameters['goodsId'];
+        final goodsId = state.pathParameters['goodsId'];
         // 从Provider获取viewModel，避免每次重建
         final viewModel = context.read<GoodsDetailViewModel>();
         // 设置商品ID并加载数据
-        viewModel.setGoodsId(_goodsId!);
+        viewModel.setGoodsId(goodsId!);
         return GoodsDetailScreen(viewModel: viewModel);
+      },
+    ),
+    GoRoute(
+      path: Routes.category,
+      builder: (context, state) {
+        final categoryId = state.pathParameters['categoryId'];
+        final viewModel = context.read<SubCategoryViewModel>();
+        viewModel.setCategoryId(int.parse(categoryId!));
+        return SubCategoryScreen(viewModel: viewModel);
       },
     ),
     GoRoute(

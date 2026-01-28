@@ -19,6 +19,8 @@ class NetworkImageCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: imageUrl,
+      width: width,
+      height: height,
       errorListener: imageErrorListener,
       placeholder: (context, url) => Shimmer.fromColors(
         baseColor: Colors.grey[300]!,
@@ -32,7 +34,7 @@ class NetworkImageCustom extends StatelessWidget {
         ),
       ),
       errorWidget: (context, url, error) =>
-          const Icon(Icons.broken_image, size: 40, color: Colors.grey),
+          const Icon(Icons.broken_image, size: 20, color: Colors.grey),
       fit: BoxFit.cover,
     );
   }

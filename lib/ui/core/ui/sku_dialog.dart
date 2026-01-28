@@ -6,15 +6,16 @@ import 'package:ykd_tea_app/domain/models/sku/sku.dart';
 import 'package:ykd_tea_app/domain/models/specification/specification.dart';
 import 'package:ykd_tea_app/infrastructure/services/goods_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/model/goods/goods_detail_api_model.dart';
+import 'package:ykd_tea_app/ui/core/ui/customer_service.dart';
 import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
 
 enum SkuDialogType { addCart, buyNow }
 
 class SkuDialog extends StatefulWidget {
-  const SkuDialog({super.key, required this.viewModel, required this.type});
+  const SkuDialog({super.key, required this.viewModel, this.type});
 
   final GoodsDetailViewModel viewModel;
-  final SkuDialogType type;
+  final SkuDialogType? type;
 
   @override
   State<SkuDialog> createState() => _SkuDialogState();
@@ -28,7 +29,12 @@ class _SkuDialogState extends State<SkuDialog> {
   @override
   initState() {
     super.initState();
-    goods = widget.viewModel.goods;
+    // 延迟隐藏底部导航栏，避免在 widget 树被锁定时触发状态更新
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.viewModel.appUIState.setBottomBarVisible(false);
+    });
+    widget.viewModel.addListener(_onViewModelChanged);
+    goods = widget.viewModel.goods!;
     goods.specificationList?.forEach((Specification element) {
       checkedSpec[element.name ?? ''] = element.valueList?.first.id ?? 0;
     });
@@ -44,8 +50,17 @@ class _SkuDialogState extends State<SkuDialog> {
 
   @override
   void dispose() {
+    // 延迟显示底部导航栏，避免在 widget 树被锁定时触发状态更新
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.viewModel.appUIState.setBottomBarVisible(true);
+    });
     widget.viewModel.addCart.removeListener(_onAddCartResult);
+    widget.viewModel.removeListener(_onViewModelChanged);
     super.dispose();
+  }
+
+  void _onViewModelChanged() {
+    setState(() {});
   }
 
   void _onAddCartResult() {
@@ -53,6 +68,7 @@ class _SkuDialogState extends State<SkuDialog> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('添加成功')));
+      Navigator.of(context).pop(true);
     }
 
     if (widget.viewModel.addCart.error) {
@@ -235,21 +251,55 @@ class _SkuDialogState extends State<SkuDialog> {
         ),
         SizedBox(
           width: double.infinity,
-          height: 40,
-          child: FilledButton(
-            onPressed: _counter > 0 && _tips.isEmpty ? _handleClick : null,
-            style: filledButtonStyle,
-            child: Text(
-              widget.type == SkuDialogType.addCart ? '加入购物车' : '立即支付',
-            ),
+          height: 44,
+          child: Row(
+            children: [
+              if (widget.type == SkuDialogType.addCart)
+                Expanded(
+                  child: FilledButton(
+                    style: filledButtonStyle,
+                    onPressed: () => _handleClick(SkuDialogType.addCart),
+                    child: Text('加入购物车'),
+                  ),
+                ),
+              if (widget.type == SkuDialogType.buyNow)
+                Expanded(
+                  child: FilledButton(
+                    style: filledButtonStyle,
+                    onPressed: () => _handleClick(SkuDialogType.buyNow),
+                    child: Text('立即购买'),
+                  ),
+                ),
+              if (widget.type == null) ...[
+                CustomerService(),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    spacing: 15,
+                    children: [
+                      FilledButton(
+                        style: filledNormalButtonStyle,
+                        onPressed: () => _handleClick(SkuDialogType.addCart),
+                        child: Text('加入购物车'),
+                      ),
+                      FilledButton(
+                        style: filledNormalButtonStyle,
+                        onPressed: () => _handleClick(SkuDialogType.buyNow),
+                        child: Text('立即购买'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
           ),
         ),
       ],
     );
   }
 
-  _handleClick() {
-    if (widget.type == SkuDialogType.addCart) {
+  void _handleClick(SkuDialogType type) {
+    if (type == SkuDialogType.addCart) {
       widget.viewModel.addCart.execute(
         AddCartParams(
           goodsId: goods.info?.id ?? 0,
@@ -269,4 +319,9 @@ final filledButtonStyle = FilledButton.styleFrom(
   foregroundColor: Colors.white,
   minimumSize: Size(double.infinity, 40),
   maximumSize: Size(double.infinity, 40),
+);
+
+final filledNormalButtonStyle = FilledButton.styleFrom(
+  backgroundColor: primaryColor,
+  foregroundColor: Colors.white,
 );

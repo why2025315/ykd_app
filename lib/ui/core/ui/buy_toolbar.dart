@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ykd_tea_app/config/constants.dart';
+import 'package:ykd_tea_app/ui/core/ui/customer_service.dart';
 import 'package:ykd_tea_app/ui/core/ui/sku_dialog.dart';
 import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
 
@@ -9,7 +10,6 @@ class BuyToolbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final goods = viewModel.goods;
     return Container(
       height: 60,
       decoration: BoxDecoration(
@@ -28,30 +28,14 @@ class BuyToolbar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
         child: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: TextButton(
-                onPressed: () {},
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.headphones, size: 22, color: Color(0xFF333333)),
-                    Text(
-                      '客服',
-                      style: TextStyle(fontSize: 14, color: Color(0xFF333333)),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            CustomerService(),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   FilledButton(
                     onPressed: () {
-                      _showSkuDialog(
+                      showSkuDialog(
                         SkuDialog(
                           viewModel: viewModel,
                           type: SkuDialogType.addCart,
@@ -65,7 +49,7 @@ class BuyToolbar extends StatelessWidget {
                   SizedBox(width: 15),
                   FilledButton(
                     onPressed: () {
-                      _showSkuDialog(
+                      showSkuDialog(
                         SkuDialog(
                           viewModel: viewModel,
                           type: SkuDialogType.buyNow,
@@ -84,33 +68,33 @@ class BuyToolbar extends StatelessWidget {
       ),
     );
   }
+}
 
-  void _showSkuDialog(Widget child, BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => Stack(
-        children: [
-          Container(
-            height: 350,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
+void showSkuDialog(Widget child, BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (context) => Stack(
+      children: [
+        Container(
+          height: 350,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
             ),
-            padding: const EdgeInsets.all(20),
-            margin: EdgeInsets.only(
-              top: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: child,
           ),
-          Positioned(top: 10, right: 10, child: CloseButton()),
-        ],
-      ),
-    );
-  }
+          padding: const EdgeInsets.all(20),
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: child,
+        ),
+        Positioned(top: 10, right: 10, child: CloseButton()),
+      ],
+    ),
+  );
 }
 
 final filledButtonStyle = FilledButton.styleFrom(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ykd_tea_app/config/constants.dart';
 import 'package:ykd_tea_app/ui/core/ui/goods_card.dart';
 import 'package:ykd_tea_app/ui/core/ui/search_bar_custom.dart';
+import 'package:ykd_tea_app/ui/mall/widgets/top_card.dart';
 import 'package:ykd_tea_app/ui/mall/view_models/mall_view_model.dart';
 
 class MallScreen extends StatelessWidget {
@@ -107,63 +109,23 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Expanded(
-                          child: Stack(
-                            children: [
-                              AspectRatio(
-                                aspectRatio: 167 / 87,
-                                child: Image.asset(
-                                  'assets/images/bg_ls.png',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned.fill(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    spacing: 10.0,
-                                    children: [
-                                      Text('零食便利', style: KtextStyle.titleText),
-                                      Text('零食/饮料/槟榔'),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
+                          child: TopCard(
+                            title: '零食便利',
+                            subTitle: '零食/饮料/槟榔',
+                            bgImagePath: 'assets/images/bg_ls.png',
+                            onTap: () {
+                              context.push('/category/1');
+                            },
                           ),
                         ),
                         Expanded(
-                          child: Stack(
-                            children: [
-                              AspectRatio(
-                                aspectRatio: 167 / 87,
-                                child: Image.asset(
-                                  'assets/images/bg_bh.png',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned.fill(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    spacing: 10.0,
-                                    children: [
-                                      Text('品质百货', style: KtextStyle.titleText),
-                                      Text('杯子/家居/茶具'),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
+                          child: TopCard(
+                            title: '品质百货',
+                            subTitle: '杯子/家居/茶具',
+                            bgImagePath: 'assets/images/bg_bh.png',
+                            onTap: () {
+                              context.push('/category/2');
+                            },
                           ),
                         ),
                       ],

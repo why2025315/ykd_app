@@ -1,19 +1,17 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:ykd_tea_app/domain/models/user/user_manager.dart';
 import 'package:ykd_tea_app/infrastructure/network/interceptors/auth_interceptor.dart';
 import 'package:ykd_tea_app/infrastructure/exceptions/network_exception.dart';
 
 class ApiClient {
   late final Dio _dio;
 
-  late final BuildContext _context;
-
-  ApiClient({required BuildContext context}) {
+  ApiClient({required UserManager userManager}) {
     _dio = Dio(
       BaseOptions(
         baseUrl: 'https://ykd.nongeasy.com/ykdnongeast/',
-        connectTimeout: const Duration(seconds: 1000),
-        receiveTimeout: const Duration(seconds: 1000),
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
         headers: {'Content-Type': 'application/json'},
       ),
     );
@@ -21,7 +19,7 @@ class ApiClient {
     // 添加拦截器
     _dio.interceptors.addAll([
       LogInterceptor(requestBody: true, responseBody: true),
-      AuthInterceptor(),
+      AuthInterceptor(userManager: userManager),
     ]);
   }
 

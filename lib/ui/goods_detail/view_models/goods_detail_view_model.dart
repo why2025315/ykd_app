@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:ykd_tea_app/config/app_ui_state.dart';
 import 'package:ykd_tea_app/infrastructure/services/goods_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/model/goods/goods_detail_api_model.dart';
 import 'package:ykd_tea_app/utils/command.dart';
 import 'package:ykd_tea_app/utils/result.dart';
 
 class GoodsDetailViewModel extends ChangeNotifier {
-  GoodsDetailViewModel({required this.goodsService}) {
+  GoodsDetailViewModel({required this.goodsService, required this.appUIState}) {
     load = Command0(fetchGoodsDetail);
     addCart = Command1(_addCart);
   }
+
+  /// 底部导航栏是否可见
+  final AppUIState appUIState;
 
   final GoodsService goodsService;
   String? _goodsId;
@@ -16,10 +20,10 @@ class GoodsDetailViewModel extends ChangeNotifier {
   GoodsDetailApiModel? _goodsDetailModel;
 
   late Command0 load;
-  late Command1<String, AddCartParams> addCart;
+  late Command1<bool, AddCartParams> addCart;
 
-  get goods => _goodsDetailModel;
-  get goodsId => _goodsId;
+  GoodsDetailApiModel? get goods => _goodsDetailModel!;
+  String? get goodsId => _goodsId;
 
   /// 设置商品ID并加载数据
   void setGoodsId(String goodsId) {
@@ -33,7 +37,6 @@ class GoodsDetailViewModel extends ChangeNotifier {
     if (_goodsId == null) {
       return Result.error(Exception('商品ID不能为空'));
     }
-    notifyListeners();
 
     try {
       final result = await goodsService.getGoodsDetail(_goodsId!);
@@ -60,14 +63,23 @@ class GoodsDetailViewModel extends ChangeNotifier {
     load.execute();
   }
 
-  Future<Result<String>> _addCart(AddCartParams params) async {
+  Future<Result<bool>> _addCart(AddCartParams params) async {
     try {
       final result = await goodsService.getFreeOrderStatus();
       switch (result) {
-        case Ok<dynamic>():
+        case Ok<bool>():
           {
             final addResult = await goodsService.addCart(params);
-            return addResult;
+            switch (addResult) {
+              case Ok<bool>():
+                {
+                  return addResult;
+                }
+              case Error<bool>():
+                {
+                  return addResult;
+                }
+            }
           }
         case Error<dynamic>():
           {
