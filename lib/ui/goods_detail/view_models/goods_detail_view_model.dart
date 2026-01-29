@@ -22,7 +22,7 @@ class GoodsDetailViewModel extends ChangeNotifier {
   late Command0 load;
   late Command1<bool, AddCartParams> addCart;
 
-  GoodsDetailApiModel? get goods => _goodsDetailModel!;
+  GoodsDetailApiModel? get goods => _goodsDetailModel;
   String? get goodsId => _goodsId;
 
   /// 设置商品ID并加载数据

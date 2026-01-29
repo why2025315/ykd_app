@@ -63,8 +63,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              title: const Text('一刻达商超'),
-              pinned: true,
+              pinned: false,
               expandedHeight: 200,
               flexibleSpace: FlexibleSpaceBar(
                 // title: const Text('一刻达商超'),

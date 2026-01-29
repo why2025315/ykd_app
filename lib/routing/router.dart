@@ -3,7 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:ykd_tea_app/config/app_ui_state.dart';
 import 'package:ykd_tea_app/routing/routes.dart';
+import 'package:ykd_tea_app/ui/cart/view_models/cart_view_model.dart';
+import 'package:ykd_tea_app/ui/cart/widgets/cart_screen.dart';
 import 'package:ykd_tea_app/ui/core/ui/bottom_navigation_bar_custom.dart';
+import 'package:ykd_tea_app/ui/core/ui/cart_btn.dart';
 import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
 import 'package:ykd_tea_app/ui/goods_detail/widgets/goods_detail_screen.dart';
 import 'package:ykd_tea_app/ui/home/view_models/home_view_model.dart';
@@ -12,6 +15,7 @@ import 'package:ykd_tea_app/ui/login/view_models/login_view_model.dart';
 import 'package:ykd_tea_app/ui/login/widgets/login_screen.dart';
 import 'package:ykd_tea_app/ui/mall/view_models/mall_view_model.dart';
 import 'package:ykd_tea_app/ui/mall/widgets/mall_screen.dart';
+import 'package:ykd_tea_app/ui/mime/view_models/mine_view_model.dart';
 import 'package:ykd_tea_app/ui/mime/widgets/mine_screen.dart';
 import 'package:ykd_tea_app/ui/sub_category/view_models/sub_category_view_model.dart';
 import 'package:ykd_tea_app/ui/sub_category/widgets/sub_category_screen.dart';
@@ -31,6 +35,9 @@ GoRouter router() => GoRouter(
           body: child,
           bottomNavigationBar: bottomBarVisible
               ? BottomNavigationBarCustom()
+              : null,
+          floatingActionButton: bottomBarVisible
+              ? CartBtn(viewModel: context.read<CartViewModel>())
               : null,
         );
       },
@@ -57,7 +64,8 @@ GoRouter router() => GoRouter(
         ),
         GoRoute(
           path: Routes.mine,
-          builder: (context, state) => const MineScreen(),
+          builder: (context, state) =>
+              MineScreen(viewModel: context.read<MineViewModel>()),
         ),
       ],
     ),
@@ -85,6 +93,11 @@ GoRouter router() => GoRouter(
       path: Routes.login,
       builder: (context, state) =>
           LoginScreen(viewModel: context.read<LoginViewModel>()),
+    ),
+    GoRoute(
+      path: Routes.cart,
+      builder: (context, state) =>
+          CartScreen(viewModel: context.read<CartViewModel>()),
     ),
     GoRoute(path: '/', redirect: (context, state) => Routes.home),
   ],

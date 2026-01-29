@@ -52,6 +52,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.viewModel.categoryId == 1 ? '零食便利' : '品质百货'),
+        centerTitle: true,
       ),
       body: Row(
         // 水平布局：左侧 NavigationRail + 右侧内容

@@ -58,9 +58,9 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
       _tabs = widget.viewModel.categoryList.map((category) {
         return Tab(text: category.name);
       }).toList();
-      if (_tabController.length != _tabs.length) {
-        _tabController.dispose();
-      }
+      // if (_tabController.length != _tabs.length) {
+      //   _tabController.dispose();
+      // }
       _tabController = TabController(
         length: _tabs.length,
         vsync: this,
@@ -80,111 +80,125 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverToBoxAdapter(
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/bg.png'),
-                    fit: BoxFit.fitWidth,
-                    alignment: Alignment.topCenter,
-                  ),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 10.0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 44,
-                      child: Text('一刻达商超', style: KtextStyle.titleText),
+      body: Stack(
+        children: [
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/bg.png'),
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.topCenter,
+              ),
+            ),
+          ),
+          NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 10.0,
                     ),
-                    Row(
-                      spacing: 16,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: TopCard(
-                            title: '零食便利',
-                            subTitle: '零食/饮料/槟榔',
-                            bgImagePath: 'assets/images/bg_ls.png',
-                            onTap: () {
-                              context.push('/category/1');
-                            },
+                        Center(
+                          child: SizedBox(
+                            height: 44,
+                            child: Text('一刻达商超', style: KtextStyle.titleText),
                           ),
                         ),
-                        Expanded(
-                          child: TopCard(
-                            title: '品质百货',
-                            subTitle: '杯子/家居/茶具',
-                            bgImagePath: 'assets/images/bg_bh.png',
-                            onTap: () {
-                              context.push('/category/2');
-                            },
-                          ),
+                        Row(
+                          spacing: 16,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              child: TopCard(
+                                title: '零食便利',
+                                subTitle: '零食/饮料/槟榔',
+                                bgImagePath: 'assets/images/bg_ls.png',
+                                onTap: () {
+                                  context.push('/category/1');
+                                },
+                              ),
+                            ),
+                            Expanded(
+                              child: TopCard(
+                                title: '品质百货',
+                                subTitle: '杯子/家居/茶具',
+                                bgImagePath: 'assets/images/bg_bh.png',
+                                onTap: () {
+                                  context.push('/category/2');
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Container(
-                padding: const EdgeInsets.all(20.0),
-                child: SearchBarCustom(),
-              ),
-            ),
 
-            // TabBar
-            SliverPersistentHeader(
-              delegate: _SliverTabBarDelegate(
-                TabBar(
-                  controller: _tabController,
-                  tabs: _tabs,
-                  isScrollable: true,
-                  indicatorColor: Color(0xFF57A749),
-                  indicator: UnderlineTabIndicator(
-                    borderRadius: BorderRadius.circular(3),
-                    borderSide: BorderSide(width: 3, color: Color(0xFF57A749)),
-                    insets: EdgeInsets.symmetric(
-                      horizontal: 30,
-                    ), // 调整左右内边距，减小指示器宽度
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding: const EdgeInsets.all(20.0),
+                    child: SearchBarCustom(),
                   ),
-                  labelPadding: EdgeInsets.symmetric(horizontal: 15),
-                  padding: EdgeInsets.symmetric(horizontal: 0),
-                  labelColor: Color(0xFF57A749),
-                  dividerColor: Colors.transparent,
-                  labelStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                  ),
-                  unselectedLabelColor: Color(0xFF767676),
-                  unselectedLabelStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  onTap: (index) {
-                    widget.viewModel.currentIndex = index;
-                  },
                 ),
-                backgroundColor: Colors.white,
-              ),
-              pinned: true,
+
+                // TabBar
+                SliverPersistentHeader(
+                  delegate: _SliverTabBarDelegate(
+                    TabBar(
+                      controller: _tabController,
+                      tabs: _tabs,
+                      isScrollable: true,
+                      indicatorColor: Color(0xFF57A749),
+                      indicator: UnderlineTabIndicator(
+                        borderRadius: BorderRadius.circular(3),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Color(0xFF57A749),
+                        ),
+                        insets: EdgeInsets.symmetric(
+                          horizontal: 30,
+                        ), // 调整左右内边距，减小指示器宽度
+                      ),
+                      labelPadding: EdgeInsets.symmetric(horizontal: 15),
+                      padding: EdgeInsets.symmetric(horizontal: 0),
+                      labelColor: Color(0xFF57A749),
+                      dividerColor: Colors.transparent,
+                      labelStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                      unselectedLabelColor: Color(0xFF767676),
+                      unselectedLabelStyle: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      onTap: (index) {
+                        widget.viewModel.currentIndex = index;
+                      },
+                    ),
+                    backgroundColor: Colors.white,
+                  ),
+                  pinned: true,
+                ),
+              ];
+            },
+            body: TabBarView(
+              controller: _tabController,
+              children: _tabs
+                  .map((Tab tab) => _buildTabContent(tab.text!))
+                  .toList(),
             ),
-          ];
-        },
-        body: TabBarView(
-          controller: _tabController,
-          children: _tabs
-              .map((Tab tab) => _buildTabContent(tab.text!))
-              .toList(),
-        ),
+          ),
+        ],
       ),
     );
   }

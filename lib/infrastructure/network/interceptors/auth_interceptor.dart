@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:ykd_tea_app/domain/models/user/user_manager.dart';
+import 'package:ykd_tea_app/infrastructure/services/user_manager.dart';
 import 'package:ykd_tea_app/routing/router_util.dart';
 
 class AuthInterceptor extends Interceptor {

@@ -38,7 +38,9 @@ class _GoodsDetailScreenState extends State<GoodsDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final goods = widget.viewModel.goods;
-    if (goods == null) return const Center(child: CircularProgressIndicator());
+    if (goods == null || goods.info == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
     // 1. 获取系统参数
     final mediaQuery = MediaQuery.of(context);
     final statusBarHeight = mediaQuery.padding.top; // 状态栏高度
@@ -81,7 +83,7 @@ class _GoodsDetailScreenState extends State<GoodsDetailScreen> {
                     right: 15.0,
                     bottom: 15.0,
                   ),
-                  child: GoodsDesc(goodsDesc: goods?.info?.goodsDesc ?? ''),
+                  child: GoodsDesc(goodsDesc: goods.info?.goodsDesc ?? ''),
                 ),
               ),
               SliverToBoxAdapter(
@@ -91,7 +93,7 @@ class _GoodsDetailScreenState extends State<GoodsDetailScreen> {
                     right: 15.0,
                     bottom: 15.0,
                   ),
-                  child: NormalQuerstion(questions: goods?.issue ?? []),
+                  child: NormalQuerstion(questions: goods.issue ?? []),
                 ),
               ),
             ],

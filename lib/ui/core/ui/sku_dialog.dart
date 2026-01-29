@@ -72,9 +72,9 @@ class _SkuDialogState extends State<SkuDialog> {
     }
 
     if (widget.viewModel.addCart.error) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('添加失败')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('添加失败：${widget.viewModel.addCart.result}')),
+      );
     }
   }
 

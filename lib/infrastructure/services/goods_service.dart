@@ -62,7 +62,7 @@ class GoodsService {
       final response = await _client.get('/wx/index/getFreeOrderStatus');
       if (response.statusCode == 200) {
         if (response.data['code'] != 0) {
-          return Result.error(Exception(response.data['data']['status']));
+          return Result.error(Exception(response.data['msg']));
         }
         return Result.ok(true);
       } else {

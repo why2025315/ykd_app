@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'package:ykd_tea_app/domain/models/user/user_manager.dart';
+import 'package:ykd_tea_app/infrastructure/services/user_manager.dart';
 import 'package:ykd_tea_app/infrastructure/services/auth_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/model/login/login_api_model.dart';
 import 'package:ykd_tea_app/utils/command.dart';
