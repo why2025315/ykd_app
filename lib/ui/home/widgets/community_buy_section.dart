@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ykd_tea_app/domain/models/community_buy_item/community_buy_item.dart';
+import 'package:ykd_tea_app/routing/routes.dart';
 import 'package:ykd_tea_app/ui/core/ui/network_image_custom.dart';
 
 class CommunityBuySection extends StatelessWidget {
@@ -30,6 +32,9 @@ class CommunityBuySection extends StatelessWidget {
           SizedBox(
             height: 130,
             child: CarouselView(
+              onTap: (index) {
+                context.push(Routes.mall, extra: list[index].categoryId);
+              },
               scrollDirection: Axis.horizontal,
               itemExtent: 110,
               padding: EdgeInsets.symmetric(horizontal: 5),

@@ -19,7 +19,7 @@ import 'package:ykd_tea_app/ui/sub_category/widgets/sub_category_screen.dart';
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 GoRouter router() => GoRouter(
-  initialLocation: Routes.mall,
+  initialLocation: Routes.home,
   navigatorKey: rootNavigatorKey,
   routes: [
     ShellRoute(
@@ -45,8 +45,15 @@ GoRouter router() => GoRouter(
         ),
         GoRoute(
           path: Routes.mall,
-          builder: (context, state) =>
-              MallScreen(viewModel: context.read<MallViewModel>()),
+          builder: (context, state) {
+            final viewModel = context.read<MallViewModel>();
+            if (state.extra != null) {
+              viewModel.initialCategoryId = state.extra as int?;
+            } else {
+              viewModel.initialCategoryId = null;
+            }
+            return MallScreen(viewModel: viewModel);
+          },
         ),
         GoRoute(
           path: Routes.mine,

@@ -20,9 +20,11 @@ class SubCategoryViewModel extends ChangeNotifier with GoodsCategoryMixin {
   int? get categoryId => _categoryId;
 
   void setCategoryId(int? value) {
-    resetGoodsList();
-    _categoryId = value;
-    getCategoryList.execute(_categoryId!);
+    if (_categoryId != value) {
+      resetGoodsList();
+      _categoryId = value;
+      getCategoryList.execute(_categoryId!);
+    }
   }
 
   Future<Result<List<CommunityBuyItem>>> _getSubCategory(int categoryId) async {

@@ -20,6 +20,7 @@ class MallViewModel extends ChangeNotifier {
     loadCategoryList = Command0(_loadCategoryList);
   }
 
+  int? _initialCategoryId;
   final HomeService _homeService;
   final GoodsService _goodsService;
   final _log = Logger('MallViewModel');
@@ -49,6 +50,10 @@ class MallViewModel extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  set initialCategoryId(int? value) {
+    _initialCategoryId = value;
   }
 
   GoodsListModel? getGoodsListByTabIndex(int tabIndex) =>
@@ -86,6 +91,9 @@ class MallViewModel extends ChangeNotifier {
       switch (result) {
         case Ok<HomeServiceModel>():
           _categoryList = result.value.pageList;
+          _currentIndex = _initialCategoryId != null
+              ? getTabIndexByCategoryId(_initialCategoryId!)
+              : 0;
           _getGoodsByCatalog(
             GoodsListParams(
               categoryId: _categoryList![currentIndex].categoryId ?? 0,
