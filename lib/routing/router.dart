@@ -5,12 +5,14 @@ import 'package:ykd_tea_app/config/app_ui_state.dart';
 import 'package:ykd_tea_app/routing/routes.dart';
 import 'package:ykd_tea_app/ui/cart/view_models/cart_view_model.dart';
 import 'package:ykd_tea_app/ui/cart/widgets/cart_screen.dart';
-import 'package:ykd_tea_app/ui/core/ui/bottom_navigation_bar_custom.dart';
-import 'package:ykd_tea_app/ui/core/ui/cart_btn.dart';
+import 'package:ykd_tea_app/ui/layout/view_models/layout_view_model.dart';
+import 'package:ykd_tea_app/ui/layout/widgets/bottom_navigation_bar_custom.dart';
+import 'package:ykd_tea_app/ui/layout/widgets/cart_btn.dart';
 import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
 import 'package:ykd_tea_app/ui/goods_detail/widgets/goods_detail_screen.dart';
 import 'package:ykd_tea_app/ui/home/view_models/home_view_model.dart';
 import 'package:ykd_tea_app/ui/home/widgets/home_screen.dart';
+import 'package:ykd_tea_app/ui/layout/widgets/layout_screen.dart';
 import 'package:ykd_tea_app/ui/login/view_models/login_view_model.dart';
 import 'package:ykd_tea_app/ui/login/widgets/login_screen.dart';
 import 'package:ykd_tea_app/ui/mall/view_models/mall_view_model.dart';
@@ -28,18 +30,22 @@ GoRouter router() => GoRouter(
   routes: [
     ShellRoute(
       builder: (context, state, child) {
-        // 从 context 中获取 AppUIState
-        final appUIState = context.watch<AppUIState>();
-        final bottomBarVisible = appUIState.isBottomBarVisible;
-        return Scaffold(
-          body: child,
-          bottomNavigationBar: bottomBarVisible
-              ? BottomNavigationBarCustom()
-              : null,
-          floatingActionButton: bottomBarVisible
-              ? CartBtn(viewModel: context.read<CartViewModel>())
-              : null,
+        return LayoutScreen(
+          viewModel: context.read<LayoutViewModel>(),
+          child: child,
         );
+        // // 从 context 中获取 AppUIState
+        // final appUIState = context.watch<AppUIState>();
+        // final bottomBarVisible = appUIState.isBottomBarVisible;
+        // return Scaffold(
+        //   body: child,
+        //   bottomNavigationBar: bottomBarVisible
+        //       ? BottomNavigationBarCustom()
+        //       : null,
+        //   floatingActionButton: bottomBarVisible
+        //       ? CartBtn(viewModel: context.read<CartViewModel>())
+        //       : null,
+        // );
       },
       routes: [
         GoRoute(

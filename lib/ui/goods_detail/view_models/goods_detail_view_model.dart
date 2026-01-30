@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:ykd_tea_app/config/app_share_state.dart';
 import 'package:ykd_tea_app/config/app_ui_state.dart';
+import 'package:ykd_tea_app/infrastructure/services/cart_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/goods_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/model/goods/goods_detail_api_model.dart';
 import 'package:ykd_tea_app/utils/command.dart';
 import 'package:ykd_tea_app/utils/result.dart';
 
 class GoodsDetailViewModel extends ChangeNotifier {
-  GoodsDetailViewModel({required this.goodsService, required this.appUIState}) {
+  GoodsDetailViewModel({
+    required this.goodsService,
+    required this.appUIState,
+    required this.cartService,
+    required this.appShareState,
+  }) {
     load = Command0(fetchGoodsDetail);
     addCart = Command1(_addCart);
   }
@@ -15,7 +22,9 @@ class GoodsDetailViewModel extends ChangeNotifier {
   final AppUIState appUIState;
 
   final GoodsService goodsService;
+  final CartService cartService;
   String? _goodsId;
+  final AppShareState appShareState;
 
   GoodsDetailApiModel? _goodsDetailModel;
 
@@ -65,19 +74,20 @@ class GoodsDetailViewModel extends ChangeNotifier {
 
   Future<Result<bool>> _addCart(AddCartParams params) async {
     try {
-      final result = await goodsService.getFreeOrderStatus();
+      final result = await cartService.getFreeOrderStatus();
       switch (result) {
         case Ok<bool>():
           {
-            final addResult = await goodsService.addCart(params);
+            final addResult = await cartService.addCart(params);
             switch (addResult) {
-              case Ok<bool>():
+              case Ok<int>():
                 {
-                  return addResult;
+                  appShareState.cartCount = addResult.value;
+                  return Result.ok(true);
                 }
-              case Error<bool>():
+              case Error<int>():
                 {
-                  return addResult;
+                  return Result.error(Exception(addResult.error.toString()));
                 }
             }
           }

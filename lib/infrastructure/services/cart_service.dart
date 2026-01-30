@@ -39,7 +39,7 @@ class CartService {
   }
 
   // 添加商品到购物车
-  Future<Result<bool>> addCart(AddCartParams params) async {
+  Future<Result<int>> addCart(AddCartParams params) async {
     try {
       final response = await _client.post(
         '/wx/cart/add',
@@ -54,7 +54,7 @@ class CartService {
         if (response.data['code'] != 0) {
           return Result.error(Exception(response.data['msg']));
         }
-        return Result.ok(true);
+        return Result.ok(response.data['data'] as int);
       } else {
         return Result.error(Exception('请求失败'));
       }

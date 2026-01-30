@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:ykd_tea_app/config/app_share_state.dart';
 import 'package:ykd_tea_app/config/app_ui_state.dart';
 import 'package:ykd_tea_app/infrastructure/services/user_manager.dart';
 import 'package:ykd_tea_app/infrastructure/network/api_client.dart';
@@ -10,6 +11,7 @@ import 'package:ykd_tea_app/infrastructure/services/home_service.dart';
 import 'package:ykd_tea_app/ui/cart/view_models/cart_view_model.dart';
 import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
 import 'package:ykd_tea_app/ui/home/view_models/home_view_model.dart';
+import 'package:ykd_tea_app/ui/layout/view_models/layout_view_model.dart';
 import 'package:ykd_tea_app/ui/login/view_models/login_view_model.dart';
 import 'package:ykd_tea_app/ui/mall/view_models/mall_view_model.dart';
 import 'package:ykd_tea_app/ui/mime/view_models/mine_view_model.dart';
@@ -23,6 +25,7 @@ List<SingleChildWidget> get providers {
     // 核心服务
     ChangeNotifierProvider(create: (context) => userManager),
     ChangeNotifierProvider(create: (context) => AppUIState()),
+
     Provider(
       create: (context) => ApiClient(userManager: context.read<UserManager>()),
     ),
@@ -31,6 +34,12 @@ List<SingleChildWidget> get providers {
     ),
     Provider(
       create: (context) => AuthService(apiClient: context.read<ApiClient>()),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => AppShareState(
+        authService: context.read<AuthService>(),
+        userManager: context.read<UserManager>(),
+      ),
     ),
     Provider(
       create: (context) => HomeService(apiClient: context.read<ApiClient>()),
@@ -52,6 +61,8 @@ List<SingleChildWidget> get providers {
       create: (context) => GoodsDetailViewModel(
         goodsService: context.read<GoodsService>(),
         appUIState: context.read<AppUIState>(),
+        cartService: context.read<CartService>(),
+        appShareState: context.read<AppShareState>(),
       ),
     ),
     ChangeNotifierProvider(
@@ -71,8 +82,16 @@ List<SingleChildWidget> get providers {
     ChangeNotifierProvider(
       create: (context) => CartViewModel(
         cartService: context.read<CartService>(),
-        userManager: context.read<UserManager>(),
+        appShareState: context.read<AppShareState>(),
         loginViewModel: context.read<LoginViewModel>(),
+      ),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => LayoutViewModel(
+        appUIState: context.read<AppUIState>(),
+        appShareState: context.read<AppShareState>(),
+        loginViewModel: context.read<LoginViewModel>(),
+        cartService: context.read<CartService>(),
       ),
     ),
   ];

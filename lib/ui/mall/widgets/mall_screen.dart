@@ -37,7 +37,7 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
   void initState() {
     super.initState();
     widget.viewModel.addListener(_onViewModelChange);
-    widget.viewModel.loadCategoryList.execute();
+
     widget.viewModel.loadCategoryList.addListener(_onLoadCategoryList);
     _tabController = TabController(
       length: _tabs.length,
@@ -58,9 +58,9 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
       _tabs = widget.viewModel.categoryList.map((category) {
         return Tab(text: category.name);
       }).toList();
-      // if (_tabController.length != _tabs.length) {
-      //   _tabController.dispose();
-      // }
+      if (_tabController.length != _tabs.length) {
+        _tabController.dispose();
+      }
       _tabController = TabController(
         length: _tabs.length,
         vsync: this,
@@ -191,12 +191,14 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
                 ),
               ];
             },
-            body: TabBarView(
-              controller: _tabController,
-              children: _tabs
-                  .map((Tab tab) => _buildTabContent(tab.text!))
-                  .toList(),
-            ),
+            body: _tabs.isEmpty
+                ? Center(child: CircularProgressIndicator())
+                : TabBarView(
+                    controller: _tabController,
+                    children: _tabs
+                        .map((Tab tab) => _buildTabContent(tab.text!))
+                        .toList(),
+                  ),
           ),
         ],
       ),

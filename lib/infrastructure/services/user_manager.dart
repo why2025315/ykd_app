@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ykd_tea_app/domain/models/useinfo/userinfo.dart';
+import 'package:ykd_tea_app/utils/command.dart';
 
 class UserManager extends ChangeNotifier {
   static const String _tokenKey = 'user_token';
   static const String _userInfoKey = 'user_info';
+
+  late Command0 loginCommand;
 
   String? _token;
   UserInfo? _userInfo;

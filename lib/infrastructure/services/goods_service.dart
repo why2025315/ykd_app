@@ -5,20 +5,6 @@ import 'package:ykd_tea_app/infrastructure/services/model/goods/goods_detail_api
 import 'package:ykd_tea_app/infrastructure/services/model/goods_list_api_model/goods_list_api_model.dart';
 import 'package:ykd_tea_app/utils/result.dart';
 
-class AddCartParams {
-  final int goodsId;
-  final int number;
-  final int productId;
-  final String goodsSpecVals;
-
-  AddCartParams({
-    required this.goodsId,
-    required this.number,
-    required this.productId,
-    required this.goodsSpecVals,
-  });
-}
-
 class GoodsListParams {
   final int categoryId;
   final int page;
@@ -49,46 +35,6 @@ class GoodsService {
           return Result.error(Exception(response.data['msg']));
         }
         return Result.ok(GoodsDetailApiModel.fromJson(response.data['data']));
-      } else {
-        return Result.error(Exception('请求失败'));
-      }
-    } on DioException catch (e) {
-      return Result.error(e);
-    }
-  }
-
-  Future<Result<bool>> getFreeOrderStatus() async {
-    try {
-      final response = await _client.get('/wx/index/getFreeOrderStatus');
-      if (response.statusCode == 200) {
-        if (response.data['code'] != 0) {
-          return Result.error(Exception(response.data['msg']));
-        }
-        return Result.ok(true);
-      } else {
-        return Result.error(Exception('请求失败'));
-      }
-    } on DioException catch (e) {
-      return Result.error(e);
-    }
-  }
-
-  Future<Result<bool>> addCart(AddCartParams params) async {
-    try {
-      final response = await _client.post(
-        '/wx/cart/add',
-        data: {
-          'goodsId': params.goodsId,
-          'number': params.number,
-          'productId': params.productId,
-          'goodsSpecVals': params.goodsSpecVals,
-        },
-      );
-      if (response.statusCode == 200) {
-        if (response.data['code'] != 0) {
-          return Result.error(Exception(response.data['msg']));
-        }
-        return Result.ok(true);
       } else {
         return Result.error(Exception('请求失败'));
       }

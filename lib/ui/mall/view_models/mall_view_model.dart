@@ -54,6 +54,7 @@ class MallViewModel extends ChangeNotifier {
 
   set initialCategoryId(int? value) {
     _initialCategoryId = value;
+    loadCategoryList.execute();
   }
 
   GoodsListModel? getGoodsListByTabIndex(int tabIndex) =>
