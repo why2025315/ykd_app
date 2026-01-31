@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:ykd_tea_app/config/app_ui_state.dart';
 import 'package:ykd_tea_app/routing/routes.dart';
 import 'package:ykd_tea_app/ui/cart/view_models/cart_view_model.dart';
 import 'package:ykd_tea_app/ui/cart/widgets/cart_screen.dart';
 import 'package:ykd_tea_app/ui/layout/view_models/layout_view_model.dart';
-import 'package:ykd_tea_app/ui/layout/widgets/bottom_navigation_bar_custom.dart';
-import 'package:ykd_tea_app/ui/layout/widgets/cart_btn.dart';
 import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
 import 'package:ykd_tea_app/ui/goods_detail/widgets/goods_detail_screen.dart';
 import 'package:ykd_tea_app/ui/home/view_models/home_view_model.dart';
@@ -19,6 +16,8 @@ import 'package:ykd_tea_app/ui/mall/view_models/mall_view_model.dart';
 import 'package:ykd_tea_app/ui/mall/widgets/mall_screen.dart';
 import 'package:ykd_tea_app/ui/mime/view_models/mine_view_model.dart';
 import 'package:ykd_tea_app/ui/mime/widgets/mine_screen.dart';
+import 'package:ykd_tea_app/ui/order/order_checkout/view_models/order_checkout_view_model.dart';
+import 'package:ykd_tea_app/ui/order/order_checkout/widgets/order_checkout_screen.dart';
 import 'package:ykd_tea_app/ui/sub_category/view_models/sub_category_view_model.dart';
 import 'package:ykd_tea_app/ui/sub_category/widgets/sub_category_screen.dart';
 
@@ -34,18 +33,6 @@ GoRouter router() => GoRouter(
           viewModel: context.read<LayoutViewModel>(),
           child: child,
         );
-        // // 从 context 中获取 AppUIState
-        // final appUIState = context.watch<AppUIState>();
-        // final bottomBarVisible = appUIState.isBottomBarVisible;
-        // return Scaffold(
-        //   body: child,
-        //   bottomNavigationBar: bottomBarVisible
-        //       ? BottomNavigationBarCustom()
-        //       : null,
-        //   floatingActionButton: bottomBarVisible
-        //       ? CartBtn(viewModel: context.read<CartViewModel>())
-        //       : null,
-        // );
       },
       routes: [
         GoRoute(
@@ -102,8 +89,25 @@ GoRouter router() => GoRouter(
     ),
     GoRoute(
       path: Routes.cart,
-      builder: (context, state) =>
-          CartScreen(viewModel: context.read<CartViewModel>()),
+      builder: (context, state) {
+        final viewModel = context.read<CartViewModel>();
+        viewModel.load.execute();
+        return CartScreen(viewModel: viewModel);
+      },
+    ),
+    GoRoute(
+      path: Routes.orderCheckout,
+      builder: (context, state) {
+        final viewModel = context.read<OrderCheckoutViewModel>();
+        // 处理 extra 参数
+        if (state.extra != null && state.extra is Map) {
+          final extra = state.extra as Map;
+          if (extra.containsKey('cartId')) {
+            viewModel.cartId = extra['cartId'] as int;
+          }
+        }
+        return OrderCheckoutScreen(viewModel: viewModel);
+      },
     ),
     GoRoute(path: '/', redirect: (context, state) => Routes.home),
   ],

@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: router(),
       theme: themeDataConfig,
+      debugShowCheckedModeBanner: false,
       builder: (context, child) {
         // 在 MaterialApp 构建完成后初始化错误处理服务，获取正确的 context
         ErrorHandlerService().init(context);

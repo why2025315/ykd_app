@@ -15,13 +15,15 @@ class AppShareState extends ChangeNotifier {
   AppShareState({
     required AuthService authService,
     required UserManager userManager,
-  }) : _authService = authService {
+  }) : _authService = authService,
+       _userManager = userManager {
     loginCommand = Command1(_login);
     _token = userManager.token;
     _userInfo = userManager.userInfo;
   }
 
   final AuthService _authService;
+  final UserManager _userManager;
 
   late Command1<LoginApiModel, LoginParams> loginCommand;
 
@@ -29,8 +31,25 @@ class AppShareState extends ChangeNotifier {
   UserInfo? get userInfo => _userInfo;
   int get cartCount => _cartCount;
 
+  set userInfo(UserInfo? value) {
+    _userInfo = value;
+    notifyListeners();
+  }
+
+  set token(String? value) {
+    _token = value;
+    notifyListeners();
+  }
+
   set cartCount(int value) {
     _cartCount = value;
+    notifyListeners();
+  }
+
+  void updateLoginState(LoginApiModel loginData) {
+    _userInfo = loginData.userInfo;
+    _token = loginData.token;
+    _userManager.login(loginData.userInfo, loginData.token);
     notifyListeners();
   }
 

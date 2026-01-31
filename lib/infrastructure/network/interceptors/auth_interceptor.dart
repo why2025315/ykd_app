@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:ykd_tea_app/infrastructure/services/error_handler_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/user_manager.dart';
 import 'package:ykd_tea_app/routing/router_util.dart';
 
@@ -23,6 +24,11 @@ class AuthInterceptor extends Interceptor {
     if (response.data['code'] == 501) {
       // 跳转到登录页
       RouterUtil.jumpToLogin();
+    }
+    if (response.data['code'] != 0) {
+      ErrorHandlerService().handleError(response.data['msg']);
+      super.onResponse(response, handler);
+      throw Exception(response.data['msg']);
     }
     super.onResponse(response, handler);
   }

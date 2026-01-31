@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ykd_tea_app/config/constants.dart';
-import 'package:ykd_tea_app/ui/core/ui/buy_toolbar.dart';
+import 'package:ykd_tea_app/ui/goods_detail/widgets/buy_toolbar.dart';
 import 'package:ykd_tea_app/ui/core/ui/sku_dialog.dart';
 import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
 

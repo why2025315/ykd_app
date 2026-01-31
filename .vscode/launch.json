@@ -14,7 +14,8 @@
         {
             "name": "ykd_tea_app",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "flutterMode": "debug"
         },
         {
             "name": "ykd_tea_app (profile mode)",

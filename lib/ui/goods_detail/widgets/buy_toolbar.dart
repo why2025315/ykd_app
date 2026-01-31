@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ykd_tea_app/config/constants.dart';
+import 'package:ykd_tea_app/ui/core/ui/bottom_app_bar_custom.dart';
 import 'package:ykd_tea_app/ui/core/ui/customer_service.dart';
 import 'package:ykd_tea_app/ui/core/ui/sku_dialog.dart';
 import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
@@ -10,22 +11,10 @@ class BuyToolbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return BottomAppBarCustom(
       height: 60,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 3), // changes position of shadow
-          ),
-        ],
-      ),
-
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+        padding: const EdgeInsets.only(right: 16),
         child: Row(
           children: [
             CustomerService(),
@@ -76,7 +65,7 @@ void showSkuDialog(Widget child, BuildContext context) {
     builder: (context) => Stack(
       children: [
         Container(
-          height: 350,
+          height: 380,
           width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.white,

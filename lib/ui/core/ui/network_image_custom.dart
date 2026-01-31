@@ -21,6 +21,7 @@ class NetworkImageCustom extends StatelessWidget {
       imageUrl: imageUrl,
       width: width,
       height: height,
+      colorBlendMode: BlendMode.color,
       errorListener: imageErrorListener,
       placeholder: (context, url) => Shimmer.fromColors(
         baseColor: Colors.grey[300]!,

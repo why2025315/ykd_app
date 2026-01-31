@@ -67,7 +67,8 @@ class ApiClient {
     } else if (e.response != null) {
       return NetworkException('服务器错误: ${e.response!.statusCode}');
     } else {
-      return NetworkException('网络请求失败: ${e.message}');
+      final errorMessage = e.error != null ? '${e.error}' : '未知错误';
+      return NetworkException('网络请求失败: $errorMessage');
     }
   }
 }

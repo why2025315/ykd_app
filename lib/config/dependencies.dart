@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:ykd_tea_app/config/app_share_state.dart';
 import 'package:ykd_tea_app/config/app_ui_state.dart';
+import 'package:ykd_tea_app/infrastructure/services/order_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/user_manager.dart';
 import 'package:ykd_tea_app/infrastructure/network/api_client.dart';
 import 'package:ykd_tea_app/infrastructure/services/auth_service.dart';
@@ -15,12 +16,13 @@ import 'package:ykd_tea_app/ui/layout/view_models/layout_view_model.dart';
 import 'package:ykd_tea_app/ui/login/view_models/login_view_model.dart';
 import 'package:ykd_tea_app/ui/mall/view_models/mall_view_model.dart';
 import 'package:ykd_tea_app/ui/mime/view_models/mine_view_model.dart';
+import 'package:ykd_tea_app/ui/order/order_checkout/view_models/order_checkout_view_model.dart';
 import 'package:ykd_tea_app/ui/sub_category/view_models/sub_category_view_model.dart';
 
 List<SingleChildWidget> get providers {
   // 初始化UserManager 确保在Provider之前调用
   final userManager = UserManager();
-  userManager.initialize();
+  // userManager.initialize();
   return [
     // 核心服务
     ChangeNotifierProvider(create: (context) => userManager),
@@ -47,6 +49,9 @@ List<SingleChildWidget> get providers {
     Provider(
       create: (context) => GoodsService(apiClient: context.read<ApiClient>()),
     ),
+    Provider(
+      create: (context) => OrderService(apiClient: context.read<ApiClient>()),
+    ),
     ChangeNotifierProvider(
       create: (context) =>
           HomeViewModel(homeService: context.read<HomeService>()),
@@ -55,6 +60,7 @@ List<SingleChildWidget> get providers {
       create: (context) => LoginViewModel(
         authService: context.read<AuthService>(),
         userManager: context.read<UserManager>(),
+        appShareState: context.read<AppShareState>(),
       ),
     ),
     ChangeNotifierProvider(
@@ -80,17 +86,23 @@ List<SingleChildWidget> get providers {
           MineViewModel(userManager: context.read<UserManager>()),
     ),
     ChangeNotifierProvider(
-      create: (context) => CartViewModel(
-        cartService: context.read<CartService>(),
-        appShareState: context.read<AppShareState>(),
-        loginViewModel: context.read<LoginViewModel>(),
-      ),
-    ),
-    ChangeNotifierProvider(
       create: (context) => LayoutViewModel(
         appUIState: context.read<AppUIState>(),
         appShareState: context.read<AppShareState>(),
         loginViewModel: context.read<LoginViewModel>(),
+        cartService: context.read<CartService>(),
+      ),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => CartViewModel(
+        cartService: context.read<CartService>(),
+        appShareState: context.read<AppShareState>(),
+        layoutViewModel: context.read<LayoutViewModel>(),
+      ),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => OrderCheckoutViewModel(
+        orderService: context.read<OrderService>(),
         cartService: context.read<CartService>(),
       ),
     ),

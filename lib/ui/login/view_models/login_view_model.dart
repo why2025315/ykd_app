@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:ykd_tea_app/config/app_share_state.dart';
 import 'package:ykd_tea_app/infrastructure/services/user_manager.dart';
 import 'package:ykd_tea_app/infrastructure/services/auth_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/model/login/login_api_model.dart';
@@ -8,13 +9,14 @@ import 'package:ykd_tea_app/utils/result.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final AuthService _authService;
-  final UserManager _userManager;
+  final AppShareState _appShareState;
 
   LoginViewModel({
     required AuthService authService,
     required UserManager userManager,
+    required AppShareState appShareState,
   }) : _authService = authService,
-       _userManager = userManager {
+       _appShareState = appShareState {
     login = Command1(_login);
   }
 
@@ -32,7 +34,7 @@ class LoginViewModel extends ChangeNotifier {
           {
             final loginData = result.value;
             // 保存用户信息和token
-            await _userManager.login(loginData.userInfo, loginData.token);
+            _appShareState.updateLoginState(loginData);
             _log.info('登录成功');
             return result;
           }

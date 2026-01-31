@@ -8,6 +8,7 @@ import 'package:ykd_tea_app/infrastructure/services/cart_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/error_handler_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/model/goods/goods_detail_api_model.dart';
 import 'package:ykd_tea_app/ui/core/ui/customer_service.dart';
+import 'package:ykd_tea_app/ui/core/ui/network_image_custom.dart';
 import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
 
 enum SkuDialogType { addCart, buyNow }
@@ -34,12 +35,14 @@ class _SkuDialogState extends State<SkuDialog> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.viewModel.appUIState.setBottomBarVisible(false);
     });
-    widget.viewModel.addListener(_onViewModelChanged);
+    widget.viewModel.load.addListener(_onViewModelChanged);
+
+    widget.viewModel.addCart.addListener(_onAddCartResult);
+
     goods = widget.viewModel.goods;
     goods?.specificationList?.forEach((Specification element) {
       checkedSpec[element.name ?? ''] = element.valueList?.first.id ?? 0;
     });
-    widget.viewModel.addCart.addListener(_onAddCartResult);
   }
 
   @override
@@ -56,12 +59,8 @@ class _SkuDialogState extends State<SkuDialog> {
       widget.viewModel.appUIState.setBottomBarVisible(true);
     });
     widget.viewModel.addCart.removeListener(_onAddCartResult);
-    widget.viewModel.removeListener(_onViewModelChanged);
+    widget.viewModel.load.removeListener(_onViewModelChanged);
     super.dispose();
-  }
-
-  void _onViewModelChanged() {
-    setState(() {});
   }
 
   void _onAddCartResult() {
@@ -76,6 +75,15 @@ class _SkuDialogState extends State<SkuDialog> {
         '添加失败：${widget.viewModel.addCart.result}',
       );
     }
+  }
+
+  void _onViewModelChanged() {
+    setState(() {
+      goods = widget.viewModel.goods;
+      goods?.specificationList?.forEach((Specification element) {
+        checkedSpec[element.name ?? ''] = element.valueList?.first.id ?? 0;
+      });
+    });
   }
 
   List<int> get checkedSpecIds => checkedSpec.values.toList();
@@ -142,13 +150,10 @@ class _SkuDialogState extends State<SkuDialog> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: SizedBox(
+                      child: NetworkImageCustom(
+                        imageUrl: goods?.info?.listPicUrl ?? '',
                         width: 80,
                         height: 80,
-                        child: Image.asset(
-                          'assets/images/banner.png',
-                          fit: BoxFit.cover,
-                        ),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -252,7 +257,7 @@ class _SkuDialogState extends State<SkuDialog> {
         ),
         SizedBox(
           width: double.infinity,
-          height: 44,
+          height: 64,
           child: Row(
             children: [
               if (widget.type == SkuDialogType.addCart)

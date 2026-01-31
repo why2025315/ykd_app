@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ykd_tea_app/ui/core/ui/buy_toolbar.dart';
+import 'package:ykd_tea_app/ui/goods_detail/widgets/buy_toolbar.dart';
 import 'package:ykd_tea_app/ui/core/ui/network_image_custom.dart';
 import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
 import 'package:ykd_tea_app/ui/goods_detail/widgets/goods_desc.dart';
