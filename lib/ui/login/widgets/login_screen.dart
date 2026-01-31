@@ -35,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onLoadResult() {
     if (widget.viewModel.login.completed) {
+      // 登录成功后，刷新上一个页面
       Navigator.pop(context);
     }
   }

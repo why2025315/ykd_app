@@ -48,6 +48,7 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('购物车'),
+        centerTitle: true,
         actions: [
           TextButton(
             onPressed: () {

@@ -21,7 +21,7 @@ class BottomAppBarCustom extends StatelessWidget {
       ),
       child: BottomAppBar(
         color: Colors.white,
-        padding: EdgeInsets.only(left: 16),
+        padding: EdgeInsets.zero,
         height: height,
         shape: CircularNotchedRectangle(),
         child: child,

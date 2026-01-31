@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:ykd_tea_app/config/app_share_state.dart';
 import 'package:ykd_tea_app/config/app_ui_state.dart';
+import 'package:ykd_tea_app/infrastructure/services/address_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/order_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/user_manager.dart';
 import 'package:ykd_tea_app/infrastructure/network/api_client.dart';
@@ -9,6 +10,8 @@ import 'package:ykd_tea_app/infrastructure/services/auth_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/cart_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/goods_service.dart';
 import 'package:ykd_tea_app/infrastructure/services/home_service.dart';
+import 'package:ykd_tea_app/ui/address/view_models/address_add_view_model.dart';
+import 'package:ykd_tea_app/ui/address/view_models/address_view_model.dart';
 import 'package:ykd_tea_app/ui/cart/view_models/cart_view_model.dart';
 import 'package:ykd_tea_app/ui/goods_detail/view_models/goods_detail_view_model.dart';
 import 'package:ykd_tea_app/ui/home/view_models/home_view_model.dart';
@@ -51,6 +54,9 @@ List<SingleChildWidget> get providers {
     ),
     Provider(
       create: (context) => OrderService(apiClient: context.read<ApiClient>()),
+    ),
+    Provider(
+      create: (context) => AddressService(apiClient: context.read<ApiClient>()),
     ),
     ChangeNotifierProvider(
       create: (context) =>
@@ -105,6 +111,16 @@ List<SingleChildWidget> get providers {
         orderService: context.read<OrderService>(),
         cartService: context.read<CartService>(),
       ),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => AddressViewModel(
+        addressService: context.read<AddressService>(),
+        appShareState: context.read<AppShareState>(),
+      ),
+    ),
+    ChangeNotifierProvider(
+      create: (context) =>
+          AddressAddViewModel(addressService: context.read<AddressService>()),
     ),
   ];
 }

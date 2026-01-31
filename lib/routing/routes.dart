@@ -7,4 +7,6 @@ abstract class Routes {
   static const category = '/category/:categoryId';
   static const cart = '/cart';
   static const orderCheckout = '/order/checkout';
+  static const address = '/address';
+  static const addressAdd = '/address/add';
 }

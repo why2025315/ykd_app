@@ -52,23 +52,26 @@ class _OrderCheckoutScreenState extends State<OrderCheckoutScreen> {
         ],
       ),
       bottomNavigationBar: BottomAppBarCustom(
-        child: Row(
-          spacing: 10,
-          children: [
-            Text('共 1 件商品，合计：¥100.00'),
-            Expanded(
-              child: FilledButton(
-                onPressed: () {},
-                style: FilledButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Row(
+            spacing: 10,
+            children: [
+              Text('共 1 件商品，合计：¥100.00'),
+              Expanded(
+                child: FilledButton(
+                  onPressed: () {},
+                  style: FilledButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
                   ),
+                  child: const Text('去支付'),
                 ),
-                child: const Text('去支付'),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

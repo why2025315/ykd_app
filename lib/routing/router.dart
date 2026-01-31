@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:ykd_tea_app/routing/routes.dart';
+import 'package:ykd_tea_app/ui/address/view_models/address_add_view_model.dart';
+import 'package:ykd_tea_app/ui/address/view_models/address_view_model.dart';
+import 'package:ykd_tea_app/ui/address/widgets/address_add_screen.dart';
+import 'package:ykd_tea_app/ui/address/widgets/address_screen.dart';
 import 'package:ykd_tea_app/ui/cart/view_models/cart_view_model.dart';
 import 'package:ykd_tea_app/ui/cart/widgets/cart_screen.dart';
 import 'package:ykd_tea_app/ui/layout/view_models/layout_view_model.dart';
@@ -107,6 +111,48 @@ GoRouter router() => GoRouter(
           }
         }
         return OrderCheckoutScreen(viewModel: viewModel);
+      },
+    ),
+    GoRoute(
+      path: Routes.address,
+      builder: (context, state) {
+        final viewModel = context.read<AddressViewModel>();
+        // // 处理 extra 参数
+        // if (state.extra != null && state.extra is Map) {
+        //   final extra = state.extra as Map;
+        //   if (extra.containsKey('cartId')) {
+        //     viewModel.cartId = extra['cartId'] as int;
+        //   }
+        // }
+        return AddressScreen(viewModel: viewModel);
+      },
+    ),
+    GoRoute(
+      path: Routes.address,
+      builder: (context, state) {
+        final viewModel = context.read<AddressViewModel>();
+        // // 处理 extra 参数
+        // if (state.extra != null && state.extra is Map) {
+        //   final extra = state.extra as Map;
+        //   if (extra.containsKey('cartId')) {
+        //     viewModel.cartId = extra['cartId'] as int;
+        //   }
+        // }
+        return AddressScreen(viewModel: viewModel);
+      },
+    ),
+    GoRoute(
+      path: Routes.addressAdd,
+      builder: (context, state) {
+        final viewModel = context.read<AddressAddViewModel>();
+        // // 处理 extra 参数
+        // if (state.extra != null && state.extra is Map) {
+        //   final extra = state.extra as Map;
+        //   if (extra.containsKey('cartId')) {
+        //     viewModel.cartId = extra['cartId'] as int;
+        //   }
+        // }
+        return AddressAddScreen(viewModel: viewModel);
       },
     ),
     GoRoute(path: '/', redirect: (context, state) => Routes.home),
