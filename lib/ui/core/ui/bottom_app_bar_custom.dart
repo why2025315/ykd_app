@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class BottomAppBarCustom extends StatelessWidget {
-  const BottomAppBarCustom({super.key, required this.child, this.height = 44});
+  const BottomAppBarCustom({super.key, required this.child, this.height});
 
   final Widget child;
-  final double height;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class BottomAppBarCustom extends StatelessWidget {
       child: BottomAppBar(
         color: Colors.white,
         padding: EdgeInsets.zero,
-        height: height,
+        height: height ?? 60,
         shape: CircularNotchedRectangle(),
         child: child,
       ),

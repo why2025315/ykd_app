@@ -12,59 +12,52 @@ class BuyBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         spacing: 20,
         children: [
-          ListenableBuilder(
-            listenable: viewModel,
-            builder: (context, child) {
-              return RichText(
-                text: TextSpan(
-                  text: '',
-                  children: [
-                    TextSpan(
-                      text: '合计：',
-                      style: const TextStyle(fontSize: 14, color: Colors.black),
-                    ),
-                    TextSpan(
-                      text:
-                          '${viewModel.cartGoodsList?.cartTotal?.checkedGoodsAmount ?? 0}',
-                      style: const TextStyle(fontSize: 18, color: Colors.red),
-                    ),
-                    TextSpan(
-                      text: '元 共计 ',
-                      style: const TextStyle(fontSize: 14, color: Colors.black),
-                    ),
-                    TextSpan(
-                      text:
-                          '${viewModel.cartGoodsList?.cartTotal?.goodsCount ?? 0}',
-                      style: const TextStyle(fontSize: 18, color: Colors.red),
-                    ),
-                    TextSpan(
-                      text: ' 件商品',
-                      style: const TextStyle(fontSize: 14, color: Colors.black),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
           Expanded(
-            child: FilledButton(
-              onPressed: () {
-                context.push(Routes.orderCheckout, extra: {'cartId': 0});
+            child: ListenableBuilder(
+              listenable: viewModel,
+              builder: (context, child) {
+                return RichText(
+                  text: TextSpan(
+                    text: '',
+                    children: [
+                      TextSpan(
+                        text: '合计：',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            '￥${viewModel.cartGoodsList?.cartTotal?.checkedGoodsAmount ?? 0}',
+                        style: priceTextStyle,
+                      ),
+                    ],
+                  ),
+                );
               },
-              style: FilledButton.styleFrom(
-                backgroundColor: primaryColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-              ),
-              child: const Text('去结算'),
             ),
+          ),
+          FilledButton(
+            onPressed: () {
+              context.push(Routes.orderCheckout, extra: {'cartId': 0});
+            },
+            style: FilledButton.styleFrom(backgroundColor: primaryColor),
+            child: const Text('去结算'),
           ),
         ],
       ),
     );
   }
 }
+
+const priceTextStyle = TextStyle(
+  fontSize: 15,
+  fontWeight: FontWeight.bold,
+  color: Colors.red,
+);

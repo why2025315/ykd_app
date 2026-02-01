@@ -224,7 +224,7 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
     final tabIndex = _tabs.indexWhere((element) => element.text == tabName);
     final tabData = widget.viewModel.getGoodsListByTabIndex(tabIndex);
     if (tabData == null) {
-      return Center(child: Text('暂无数据'));
+      return Center(child: CircularProgressIndicator());
     }
 
     return NotificationListener<ScrollNotification>(

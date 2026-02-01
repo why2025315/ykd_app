@@ -46,6 +46,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff7f7f7),
       appBar: AppBar(
         title: const Text('购物车'),
         centerTitle: true,

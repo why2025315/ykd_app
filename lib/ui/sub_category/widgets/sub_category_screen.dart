@@ -104,7 +104,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen>
     );
     final tabData = widget.viewModel.getGoodsListByTabIndex(tabIndex);
     if (tabData == null) {
-      return Center(child: Text('暂无数据'));
+      return Center(child: CircularProgressIndicator());
     }
 
     return NotificationListener<ScrollNotification>(

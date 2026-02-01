@@ -28,4 +28,9 @@ class KtextStyle {
     color: Color(0xFF555555),
     height: 24,
   );
+
+  static const TextStyle mutedText = TextStyle(
+    fontSize: 14,
+    color: Colors.black38,
+  );
 }

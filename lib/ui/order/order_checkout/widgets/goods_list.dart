@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ykd_tea_app/config/constants.dart';
 import 'package:ykd_tea_app/ui/core/ui/network_image_custom.dart';
 import 'package:ykd_tea_app/ui/order/order_checkout/view_models/order_checkout_view_model.dart';
 
@@ -33,8 +34,22 @@ class GoodsList extends StatelessWidget {
               viewModel?.cartCheckoutData?.checkedGoodsList?[index].goodsName ??
                   '',
             ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '¥${viewModel?.cartCheckoutData?.checkedGoodsList?[index].price?.toString() ?? '0.00'}',
+                  style: KtextStyle.mutedText,
+                ),
+                Text(
+                  '${viewModel?.cartCheckoutData?.checkedGoodsList?[index].goodsSpecVals}',
+                  style: KtextStyle.mutedText,
+                ),
+              ],
+            ),
             trailing: Text(
-              '¥${viewModel?.cartCheckoutData?.checkedGoodsList?[index].price?.toString() ?? '0.00'} x ${viewModel?.cartCheckoutData?.checkedGoodsList?[index].number?.toString() ?? '0'}',
+              'X ${viewModel?.cartCheckoutData?.checkedGoodsList?[index].number?.toString() ?? '0'}',
+              style: KtextStyle.mutedText,
             ),
           ),
         ),

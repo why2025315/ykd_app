@@ -140,49 +140,47 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
         ),
       ),
       bottomNavigationBar: BottomAppBarCustom(
-        child: Row(
-          children: [
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                style: TextButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
-                ),
-                child: const Text('取消'),
-              ),
-            ),
-            Expanded(
-              child: FilledButton(
-                onPressed: () {
-                  widget.viewModel.addAddressCommand.execute(
-                    AddressAddParams(
-                      name: _nameController.text,
-                      mobile: _mobileController.text,
-                      address: _addressController.text,
-                      detail: _detailController.text,
-                      isDefault: _isDefault,
-                      provinceId: 0,
-                      cityId: 0,
-                      areaId: 0,
-                      // provinceId: _addressResult!.provinceId!,
-                      // cityId: _addressResult!.cityId!,
-                      // areaId: _addressResult!.areaId!,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
                     ),
-                  );
-                },
-                style: FilledButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
                   ),
+                  child: const Text('取消'),
                 ),
-                child: const Text('保存'),
               ),
-            ),
-          ],
+              Expanded(
+                child: FilledButton(
+                  onPressed: () {
+                    widget.viewModel.addAddressCommand.execute(
+                      AddressAddParams(
+                        name: _nameController.text,
+                        mobile: _mobileController.text,
+                        address: _addressController.text,
+                        detail: _detailController.text,
+                        isDefault: _isDefault,
+                        provinceId: 0,
+                        cityId: 0,
+                        areaId: 0,
+                        // provinceId: _addressResult!.provinceId!,
+                        // cityId: _addressResult!.cityId!,
+                        // areaId: _addressResult!.areaId!,
+                      ),
+                    );
+                  },
+                  child: const Text('保存'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

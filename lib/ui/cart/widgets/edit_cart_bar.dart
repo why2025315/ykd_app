@@ -14,41 +14,39 @@ class EditCartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Flexible(
-          child: GestureDetector(
-            onTap: () {
-              onCheckAll(!isCheckAll);
-            },
-            child: Row(
-              children: [
-                Checkbox(
-                  value: isCheckAll,
-                  onChanged: (value) {
-                    if (value != null) {
-                      onCheckAll(value);
-                    }
-                  },
-                ),
-                Text('全选'),
-              ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                onCheckAll(!isCheckAll);
+              },
+              child: Row(
+                children: [
+                  Checkbox(
+                    value: isCheckAll,
+                    onChanged: (value) {
+                      if (value != null) {
+                        onCheckAll(value);
+                      }
+                    },
+                  ),
+                  Text('全选'),
+                ],
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: FilledButton(
+          FilledButton(
             onPressed: () {
               onDelete();
             },
-            style: FilledButton.styleFrom(
-              backgroundColor: Colors.red,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            ),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
             child: Text('删除'),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
