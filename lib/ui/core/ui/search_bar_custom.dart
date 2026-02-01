@@ -14,7 +14,7 @@ class _SearchBarCustomState extends State<SearchBarCustom> {
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
       decoration: BoxDecoration(
         color: Colors.black.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
         spacing: 10,

@@ -43,14 +43,23 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
       length: _tabs.length,
       vsync: this,
       initialIndex: widget.viewModel.currentIndex,
-    );
+    )..addListener(_onTabChanged);
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(_onTabChanged);
     _tabController.dispose();
     widget.viewModel.removeListener(_onViewModelChange);
     super.dispose();
+  }
+
+  void _onTabChanged() {
+    if (mounted) {
+      setState(() {
+        widget.viewModel.currentIndex = _tabController.index;
+      });
+    }
   }
 
   void _onLoadCategoryList() {
@@ -59,13 +68,14 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
         return Tab(text: category.name);
       }).toList();
       if (_tabController.length != _tabs.length) {
+        _tabController.removeListener(_onTabChanged);
         _tabController.dispose();
       }
       _tabController = TabController(
         length: _tabs.length,
         vsync: this,
         initialIndex: widget.viewModel.currentIndex,
-      );
+      )..addListener(_onTabChanged);
       widget.viewModel.loadCategoryList.removeListener(_onLoadCategoryList);
     }
   }
@@ -96,47 +106,47 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
           NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
+                SliverAppBar(
+                  pinned: true,
+                  floating: true,
+                  forceElevated: innerBoxIsScrolled,
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  title: Text('一刻达商超'),
+                  centerTitle: true,
+                ),
                 SliverToBoxAdapter(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 10.0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      left: 15,
+                      right: 15,
+                      bottom: 8,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
+                      spacing: 16,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Center(
-                          child: SizedBox(
-                            height: 44,
-                            child: Text('一刻达商超', style: KtextStyle.titleText),
+                        Expanded(
+                          child: TopCard(
+                            title: '零食便利',
+                            subTitle: '零食/饮料/槟榔',
+                            bgImagePath: 'assets/images/bg_ls.png',
+                            onTap: () {
+                              context.push('/category/1');
+                            },
                           ),
                         ),
-                        Row(
-                          spacing: 16,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                              child: TopCard(
-                                title: '零食便利',
-                                subTitle: '零食/饮料/槟榔',
-                                bgImagePath: 'assets/images/bg_ls.png',
-                                onTap: () {
-                                  context.push('/category/1');
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              child: TopCard(
-                                title: '品质百货',
-                                subTitle: '杯子/家居/茶具',
-                                bgImagePath: 'assets/images/bg_bh.png',
-                                onTap: () {
-                                  context.push('/category/2');
-                                },
-                              ),
-                            ),
-                          ],
+                        Expanded(
+                          child: TopCard(
+                            title: '品质百货',
+                            subTitle: '杯子/家居/茶具',
+                            bgImagePath: 'assets/images/bg_bh.png',
+                            onTap: () {
+                              context.push('/category/2');
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -145,7 +155,10 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
 
                 SliverToBoxAdapter(
                   child: Container(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15.0,
+                      vertical: 5.0,
+                    ),
                     child: SearchBarCustom(),
                   ),
                 ),
@@ -156,6 +169,7 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
                     TabBar(
                       controller: _tabController,
                       tabs: _tabs,
+                      tabAlignment: TabAlignment.start,
                       isScrollable: true,
                       indicatorColor: Color(0xFF57A749),
                       indicator: UnderlineTabIndicator(
@@ -166,6 +180,7 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
                         ),
                         insets: EdgeInsets.symmetric(
                           horizontal: 30,
+                          vertical: 5,
                         ), // 调整左右内边距，减小指示器宽度
                       ),
                       labelPadding: EdgeInsets.symmetric(horizontal: 15),
@@ -174,16 +189,16 @@ class _TabInCustomScrollViewState extends State<TabInCustomScrollView>
                       dividerColor: Colors.transparent,
                       labelStyle: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 22,
+                        fontSize: 19,
                       ),
                       unselectedLabelColor: Color(0xFF767676),
                       unselectedLabelStyle: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
                       ),
-                      onTap: (index) {
-                        widget.viewModel.currentIndex = index;
-                      },
+                      // onTap: (index) {
+                      //   widget.viewModel.currentIndex = index;
+                      // },
                     ),
                     backgroundColor: Colors.white,
                   ),
