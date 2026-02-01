@@ -16,16 +16,16 @@ class GoodsTopCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GoodsServiceList(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           Text(goods.name ?? '', style: KtextStyle.titleText),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Text(goods.goodsBrief ?? '', style: KtextStyle.descriptionText),
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('已售: ${goods.salesNum ?? 0}', style: KtextStyle.greenText),
-              Text('￥${goods.retailPrice ?? 0.0}', style: KtextStyle.titleText),
+              Text('已售: ${goods.salesNum ?? 0}', style: greenText),
+              Text('￥${goods.retailPrice ?? 0.0}', style: priceTextStyle),
             ],
           ),
         ],
@@ -33,3 +33,16 @@ class GoodsTopCard extends StatelessWidget {
     );
   }
 }
+
+const TextStyle priceTextStyle = TextStyle(
+  fontSize: 17,
+  fontWeight: FontWeight.w800,
+  color: Color(0xFF333333),
+  letterSpacing: 0,
+);
+
+const TextStyle greenText = TextStyle(
+  fontSize: 12,
+  color: primaryColor,
+  letterSpacing: 0,
+);

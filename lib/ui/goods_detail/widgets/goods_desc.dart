@@ -11,7 +11,7 @@ class GoodsDesc extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardCustom(
       title: '商品介绍',
-      child: NetworkImageCustom(imageUrl: goodsDesc),
+      child: NetworkImageCustom(imageUrl: goodsDesc, fit: BoxFit.fitWidth),
     );
   }
 }

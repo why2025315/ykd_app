@@ -9,7 +9,7 @@ class KConstants {
 class KtextStyle {
   static const TextStyle greenText = TextStyle(
     color: primaryColor,
-    fontSize: 12,
+    fontSize: 10,
   );
 
   static const TextStyle descriptionText = TextStyle(
@@ -18,7 +18,7 @@ class KtextStyle {
   );
 
   static const TextStyle titleText = TextStyle(
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: FontWeight.bold,
     color: Color(0xFF333333),
   );

@@ -47,33 +47,25 @@ class _GoodsDetailScreenState extends State<GoodsDetailScreen> {
     final navBarHeight = 44.0;
     return Scaffold(
       extendBodyBehindAppBar: true,
+      // appBar: AppBar(title: Text(goods.info?.name ?? '')),
       body: Stack(
         children: [
+          SizedBox(
+            height: 300,
+            width: MediaQuery.of(context).size.width,
+            child: NetworkImageCustom(imageUrl: goods.info?.gallery?[0] ?? ''),
+          ),
           CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 450,
-                  child: Stack(
-                    children: [
-                      SizedBox(
-                        height: 300,
-                        width: MediaQuery.of(context).size.width,
-                        child: NetworkImageCustom(
-                          imageUrl: goods.info?.gallery?[0] ?? '',
-                        ),
-                      ),
-                      Positioned(
-                        top: 270,
-                        left: 0,
-                        right: 0,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: GoodsTopCard(goods: goods.info!),
-                        ),
-                      ),
-                    ],
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 270,
+                    left: 15,
+                    right: 15,
+                    bottom: 15,
                   ),
+                  child: GoodsTopCard(goods: goods.info!),
                 ),
               ),
               SliverToBoxAdapter(
@@ -115,20 +107,7 @@ class _GoodsDetailScreenState extends State<GoodsDetailScreen> {
                       left: 16,
                       top: statusBarHeight, // 适配状态栏，垂直居中
                     ),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                        size: 14,
-                      ),
-                      onPressed: () => Navigator.pop(context),
-                      style: IconButton.styleFrom(
-                        backgroundColor: Colors.black.withValues(alpha: .3),
-                        shape: const CircleBorder(),
-                        padding: const EdgeInsets.all(4),
-                        fixedSize: const Size.square(30),
-                      ),
-                    ),
+                    child: BackButton(),
                   ),
                 ],
               ),

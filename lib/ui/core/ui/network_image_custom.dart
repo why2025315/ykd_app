@@ -9,11 +9,13 @@ class NetworkImageCustom extends StatelessWidget {
     required this.imageUrl,
     this.width,
     this.height,
+    this.fit,
   });
 
   final String imageUrl;
   final double? width;
   final double? height;
+  final BoxFit? fit;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class NetworkImageCustom extends StatelessWidget {
       ),
       errorWidget: (context, url, error) =>
           const Icon(Icons.broken_image, size: 20, color: Colors.grey),
-      fit: BoxFit.cover,
+      fit: fit ?? BoxFit.cover,
     );
   }
 }
