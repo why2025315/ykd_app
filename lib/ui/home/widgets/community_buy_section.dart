@@ -12,20 +12,20 @@ class CommunityBuySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      margin: EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      margin: EdgeInsets.only(bottom: 15),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 19,
-            width: 120,
+            height: 28,
             margin: EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/community_label.png'),
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
+                alignment: Alignment.centerLeft,
               ),
             ),
           ),
@@ -36,45 +36,49 @@ class CommunityBuySection extends StatelessWidget {
                 context.push(Routes.mall, extra: list[index].categoryId);
               },
               scrollDirection: Axis.horizontal,
-              itemExtent: 110,
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
-              ),
+              itemExtent: 100,
+              padding: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
               children: list.map((item) {
                 return Container(
-                  width: 100,
-                  decoration: BoxDecoration(color: Color(0xFFF7F7F7)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: ClipRRect(
-                          // borderRadius: BorderRadius.circular(10),
-                          child: NetworkImageCustom(
-                            imageUrl: item.imgUrl ?? '',
+                  margin: EdgeInsets.only(right: 10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: Container(
+                      width: 100,
+                      decoration: BoxDecoration(color: Color(0xfff7f7f7)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: NetworkImageCustom(
+                                imageUrl: item.imgUrl ?? '',
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
 
-                      SizedBox(
-                        height: 30,
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                            ),
-                            child: Text(
-                              item.name ?? '',
-                              overflow: TextOverflow.ellipsis,
+                          SizedBox(
+                            height: 30,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
+                                child: Text(
+                                  item.name ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 );
               }).toList(),

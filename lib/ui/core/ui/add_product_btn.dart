@@ -16,7 +16,7 @@ class AddProductBtn extends StatelessWidget {
       padding: EdgeInsets.zero,
       style: IconButton.styleFrom(
         backgroundColor: primaryColor,
-        fixedSize: Size(30, 30),
+        fixedSize: Size(25, 25),
         padding: EdgeInsets.zero,
         iconSize: 18,
       ),

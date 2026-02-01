@@ -38,40 +38,40 @@ class GoodsCard extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
                       Text(
                         goods.name ?? '',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 15,
                           color: Color(0xFF323232),
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 5),
                       if (goods.goodsBrief != null &&
                           goods.goodsBrief!.isNotEmpty) ...[
                         Text(
                           goods.goodsBrief!,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             color: Color(0xFF999999),
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 12),
                       ],
                       Text(
                         '¥${goods.retailPrice ?? 0}',
                         style: TextStyle(
                           color: Color(0xFF343434),
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 15),
                     ],
                   ),
                 ),
@@ -79,8 +79,8 @@ class GoodsCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 20,
-            right: 20,
+            bottom: 6,
+            right: 6,
             child: AddProductBtn(goodsId: goods.id!),
           ),
         ],

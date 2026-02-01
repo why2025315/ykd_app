@@ -7,9 +7,9 @@ class NewUserReceiveCoupon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         child: AspectRatio(
-          aspectRatio: 686 / 136, // 根据实际图片宽高比调整
+          aspectRatio: 343 / 69, // 根据实际图片宽高比调整
           child: Stack(
             fit: StackFit.expand,
             children: [

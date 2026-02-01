@@ -63,7 +63,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              pinned: false,
+              pinned: true,
+              title: const Text('一刻达商超'),
+              centerTitle: true,
+              backgroundColor: Colors.white,
               expandedHeight: 200,
               flexibleSpace: FlexibleSpaceBar(
                 // title: const Text('一刻达商超'),
@@ -82,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               SliverPersistentHeader(
                 delegate: _SliverTabBarDelegate(
                   TabBar(
+                    tabAlignment: TabAlignment.start,
                     controller: _tabController,
                     tabs: tabs.map((tab) => Tab(text: tab)).toList(),
                     isScrollable: true,
@@ -94,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                       insets: EdgeInsets.symmetric(
                         horizontal: 30,
+                        vertical: 5,
                       ), // 调整左右内边距，减小指示器宽度
                     ),
                     labelPadding: EdgeInsets.symmetric(horizontal: 15),
@@ -102,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     dividerColor: Colors.transparent,
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 22,
+                      fontSize: 19,
                     ),
                     unselectedLabelColor: Color(0xFF767676),
                     unselectedLabelStyle: TextStyle(
