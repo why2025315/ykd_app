@@ -47,7 +47,6 @@ class _GoodsDetailScreenState extends State<GoodsDetailScreen> {
     final navBarHeight = 44.0;
     return Scaffold(
       extendBodyBehindAppBar: true,
-      // appBar: AppBar(title: Text(goods.info?.name ?? '')),
       body: Stack(
         children: [
           SizedBox(
@@ -107,7 +106,20 @@ class _GoodsDetailScreenState extends State<GoodsDetailScreen> {
                       left: 16,
                       top: statusBarHeight, // 适配状态栏，垂直居中
                     ),
-                    child: BackButton(),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.black.withValues(alpha: .3),
+                        shape: const CircleBorder(),
+                        padding: const EdgeInsets.all(4),
+                        fixedSize: const Size.square(30),
+                      ),
+                    ),
                   ),
                 ],
               ),
