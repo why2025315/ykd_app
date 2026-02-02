@@ -2,14 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:ykd_tea_app/config/constants.dart';
 import 'package:ykd_tea_app/ui/order/order_checkout/view_models/order_checkout_view_model.dart';
 
-class TotalInfo extends StatelessWidget {
+class TotalInfo extends StatefulWidget {
   const TotalInfo({super.key, this.viewModel});
 
   final OrderCheckoutViewModel? viewModel;
 
   @override
+  State<TotalInfo> createState() => _TotalInfoState();
+}
+
+class _TotalInfoState extends State<TotalInfo> {
+  late TextEditingController helpBuyController;
+
+  @override
+  void initState() {
+    super.initState();
+    helpBuyController = TextEditingController(text: widget.viewModel?.leaveWord)
+      ..addListener(_onChange);
+  }
+
+  @override
+  void dispose() {
+    helpBuyController.removeListener(_onChange);
+    helpBuyController.dispose();
+    super.dispose();
+  }
+
+  void _onChange() {
+    widget.viewModel?.leaveWord = helpBuyController.text;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final cartCheckoutData = viewModel?.cartCheckoutData;
+    final cartCheckoutData = widget.viewModel?.cartCheckoutData;
 
     return SliverList.list(
       children: [
@@ -46,6 +71,7 @@ class TotalInfo extends StatelessWidget {
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: TextField(
+              controller: helpBuyController,
               minLines: 2,
               maxLines: 5,
               decoration: InputDecoration(

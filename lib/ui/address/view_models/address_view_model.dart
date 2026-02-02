@@ -15,9 +15,16 @@ class AddressViewModel extends ChangeNotifier {
   }
 
   List<Address> _addressList = [];
+  int? _addressId;
+
   late Command0<List<Address>> load;
 
   List<Address> get addressList => _addressList;
+  int? get addressId => _addressId;
+  set addressId(int? value) {
+    _addressId = value;
+    notifyListeners();
+  }
 
   Future<Result<List<Address>>> _fetchAddressList() async {
     try {

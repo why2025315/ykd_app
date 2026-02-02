@@ -1,9 +1,9 @@
-import 'package:city_pickers/city_pickers.dart';
-import 'package:city_pickers/modal/result.dart';
 import 'package:flutter/material.dart';
 import 'package:ykd_tea_app/infrastructure/services/address_service.dart';
 import 'package:ykd_tea_app/ui/address/view_models/address_add_view_model.dart';
+import 'package:ykd_tea_app/ui/address/widgets/address_select.dart';
 import 'package:ykd_tea_app/ui/core/ui/bottom_app_bar_custom.dart';
+import 'package:ykd_tea_app/utils/result.dart';
 
 class AddressAddScreen extends StatefulWidget {
   const AddressAddScreen({super.key, required this.viewModel});
@@ -18,18 +18,50 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
   late TextEditingController _nameController;
   late TextEditingController _mobileController;
   late TextEditingController _addressController;
-  late TextEditingController _detailController;
   bool _isDefault = false;
 
-  Result? _addressResult;
+  AddressResult? _addressResult;
 
   @override
   void initState() {
     super.initState();
     _nameController = TextEditingController();
     _mobileController = TextEditingController();
-    _detailController = TextEditingController();
     _addressController = TextEditingController();
+    widget.viewModel.getAddressCommand.addListener(_onGetAddress);
+    widget.viewModel.addAddressCommand.addListener(_onSaveAddress);
+  }
+
+  void _onGetAddress() {
+    final addressDetail = widget.viewModel.addressDetail;
+    if (addressDetail != null) {
+      _nameController.text = addressDetail.name ?? '';
+      _mobileController.text = addressDetail.mobile ?? '';
+      _addressController.text = addressDetail.address ?? '';
+      setState(() {
+        _isDefault = addressDetail!.isDefault!;
+        _addressResult = AddressResult(
+          provinceId: addressDetail.provinceId,
+          provinceName: addressDetail.provinceName,
+          cityId: addressDetail.cityId,
+          cityName: addressDetail.cityName,
+          areaId: addressDetail.districtId,
+          areaName: addressDetail.areaName,
+        );
+      });
+    }
+    widget.viewModel.getAddressCommand.removeListener(_onGetAddress);
+  }
+
+  void _onSaveAddress() {
+    if (widget.viewModel.addAddressCommand.completed) {
+      final result = widget.viewModel.addAddressCommand.result;
+      if (result is Ok<int>) {
+        Navigator.of(context).pop(result.value); // 返回具体的地址ID
+      } else {
+        Navigator.of(context).pop(false); // 操作失败返回false
+      }
+    }
   }
 
   @override
@@ -37,7 +69,7 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
     _nameController.dispose();
     _mobileController.dispose();
     _addressController.dispose();
-    _detailController.dispose();
+    widget.viewModel.getAddressCommand.removeListener(_onGetAddress);
     super.dispose();
   }
 
@@ -102,7 +134,7 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
                     ),
                     const Divider(height: 1, color: Colors.black12),
                     TextFormField(
-                      controller: _detailController,
+                      controller: _addressController,
                       keyboardType: TextInputType.streetAddress,
                       minLines: 4,
                       maxLines: 10,
@@ -160,19 +192,21 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
               Expanded(
                 child: FilledButton(
                   onPressed: () {
+                    if (_addressResult?.provinceId == null ||
+                        _addressResult?.cityId == null ||
+                        _addressResult?.areaId == null) {
+                      return;
+                    }
                     widget.viewModel.addAddressCommand.execute(
                       AddressAddParams(
+                        id: widget.viewModel.addressId,
                         name: _nameController.text,
                         mobile: _mobileController.text,
                         address: _addressController.text,
-                        detail: _detailController.text,
                         isDefault: _isDefault,
-                        provinceId: 0,
-                        cityId: 0,
-                        areaId: 0,
-                        // provinceId: _addressResult!.provinceId!,
-                        // cityId: _addressResult!.cityId!,
-                        // areaId: _addressResult!.areaId!,
+                        provinceId: _addressResult!.provinceId!,
+                        cityId: _addressResult!.cityId!,
+                        areaId: _addressResult!.areaId!,
                       ),
                     );
                   },
@@ -186,13 +220,23 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
     );
   }
 
-  Future<Result?> _getAddress(context) async {
-    Result? result = await CityPickers.showFullPageCityPicker(context: context);
-    print('result $result');
-    if (result != null) {
-      _addressResult = result;
-    }
+  Future<void> _getAddress(BuildContext context) async {
+    // return result;
+    AddressResult? result = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return AddressSelect(
+            initialResult: _addressResult,
+            getRegionService: widget.viewModel.addressService.getRegionList,
+          );
+        },
+      ),
+    );
 
-    return result;
+    if (result != null) {
+      setState(() {
+        _addressResult = result;
+      });
+    }
   }
 }

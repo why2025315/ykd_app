@@ -20,6 +20,7 @@ import 'package:ykd_tea_app/ui/login/view_models/login_view_model.dart';
 import 'package:ykd_tea_app/ui/mall/view_models/mall_view_model.dart';
 import 'package:ykd_tea_app/ui/mime/view_models/mine_view_model.dart';
 import 'package:ykd_tea_app/ui/order/order_checkout/view_models/order_checkout_view_model.dart';
+import 'package:ykd_tea_app/ui/order/order_detail/view_models/order_detail_view_model.dart';
 import 'package:ykd_tea_app/ui/sub_category/view_models/sub_category_view_model.dart';
 
 List<SingleChildWidget> get providers {
@@ -110,6 +111,8 @@ List<SingleChildWidget> get providers {
       create: (context) => OrderCheckoutViewModel(
         orderService: context.read<OrderService>(),
         cartService: context.read<CartService>(),
+        addressService: context.read<AddressService>(),
+        layoutViewModel: context.read<LayoutViewModel>(),
       ),
     ),
     ChangeNotifierProvider(
@@ -121,6 +124,10 @@ List<SingleChildWidget> get providers {
     ChangeNotifierProvider(
       create: (context) =>
           AddressAddViewModel(addressService: context.read<AddressService>()),
+    ),
+    ChangeNotifierProvider(
+      create: (context) =>
+          OrderDetailViewModel(orderService: context.read<OrderService>()),
     ),
   ];
 }

@@ -47,8 +47,16 @@ class _AddressScreenState extends State<AddressScreen> {
                         motion: const ScrollMotion(),
                         children: [
                           SlidableAction(
-                            onPressed: (context) {
-                              // 删除地址
+                            onPressed: (context) async {
+                              // 跳转到编辑地址页面并等待返回结果
+                              final result = await context.push<dynamic>(
+                                Routes.addressAdd,
+                                extra: address.id,
+                              );
+                              if (result != false) {
+                                // 如果返回非false值，表示地址已更新，刷新地址列表
+                                widget.viewModel.load.execute();
+                              }
                             },
                             backgroundColor: primaryColor,
                             foregroundColor: Colors.white,
@@ -71,6 +79,12 @@ class _AddressScreenState extends State<AddressScreen> {
                           '${address.name ?? ''} ${address.mobile ?? ''}',
                         ),
                         subtitle: Text(address.detailedAddress ?? ''),
+                        trailing: widget.viewModel.addressId == address.id
+                            ? const Icon(Icons.check, color: primaryColor)
+                            : null,
+                        onTap: () {
+                          Navigator.of(context).pop(address.id);
+                        },
                       ),
                     );
                   },
@@ -87,9 +101,13 @@ class _AddressScreenState extends State<AddressScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // 跳转到添加地址页面
-          context.push(Routes.addressAdd);
+        onPressed: () async {
+          // 跳转到添加地址页面并等待返回结果
+          final result = await context.push<dynamic>(Routes.addressAdd);
+          if (result != false) {
+            // 如果返回非false值，表示地址已更新，刷新地址列表
+            widget.viewModel.load.execute();
+          }
         },
         backgroundColor: primaryColor,
         child: const Icon(Icons.add, color: Colors.white),

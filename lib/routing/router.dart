@@ -22,13 +22,15 @@ import 'package:ykd_tea_app/ui/mime/view_models/mine_view_model.dart';
 import 'package:ykd_tea_app/ui/mime/widgets/mine_screen.dart';
 import 'package:ykd_tea_app/ui/order/order_checkout/view_models/order_checkout_view_model.dart';
 import 'package:ykd_tea_app/ui/order/order_checkout/widgets/order_checkout_screen.dart';
+import 'package:ykd_tea_app/ui/order/order_detail/view_models/order_detail_view_model.dart';
+import 'package:ykd_tea_app/ui/order/order_detail/widgets/order_detail_screen.dart';
 import 'package:ykd_tea_app/ui/sub_category/view_models/sub_category_view_model.dart';
 import 'package:ykd_tea_app/ui/sub_category/widgets/sub_category_screen.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 GoRouter router() => GoRouter(
-  initialLocation: Routes.home,
+  initialLocation: '/order/detail/782',
   navigatorKey: rootNavigatorKey,
   routes: [
     ShellRoute(
@@ -117,27 +119,10 @@ GoRouter router() => GoRouter(
       path: Routes.address,
       builder: (context, state) {
         final viewModel = context.read<AddressViewModel>();
-        // // 处理 extra 参数
-        // if (state.extra != null && state.extra is Map) {
-        //   final extra = state.extra as Map;
-        //   if (extra.containsKey('cartId')) {
-        //     viewModel.cartId = extra['cartId'] as int;
-        //   }
-        // }
-        return AddressScreen(viewModel: viewModel);
-      },
-    ),
-    GoRoute(
-      path: Routes.address,
-      builder: (context, state) {
-        final viewModel = context.read<AddressViewModel>();
-        // // 处理 extra 参数
-        // if (state.extra != null && state.extra is Map) {
-        //   final extra = state.extra as Map;
-        //   if (extra.containsKey('cartId')) {
-        //     viewModel.cartId = extra['cartId'] as int;
-        //   }
-        // }
+        // 处理 extra 参数
+        if (state.extra != null && state.extra is int?) {
+          viewModel.addressId = state.extra as int;
+        }
         return AddressScreen(viewModel: viewModel);
       },
     ),
@@ -145,14 +130,20 @@ GoRouter router() => GoRouter(
       path: Routes.addressAdd,
       builder: (context, state) {
         final viewModel = context.read<AddressAddViewModel>();
-        // // 处理 extra 参数
-        // if (state.extra != null && state.extra is Map) {
-        //   final extra = state.extra as Map;
-        //   if (extra.containsKey('cartId')) {
-        //     viewModel.cartId = extra['cartId'] as int;
-        //   }
-        // }
+        // 处理 extra 参数
+        if (state.extra != null && state.extra is int?) {
+          viewModel.addressId = state.extra as int;
+        }
         return AddressAddScreen(viewModel: viewModel);
+      },
+    ),
+    GoRoute(
+      path: Routes.orderDetail,
+      builder: (context, state) {
+        final orderId = state.pathParameters['orderId'];
+        final viewModel = context.read<OrderDetailViewModel>();
+        viewModel.setOrderId(int.parse(orderId!));
+        return OrderDetailScreen(viewModel: viewModel);
       },
     ),
     GoRoute(path: '/', redirect: (context, state) => Routes.home),

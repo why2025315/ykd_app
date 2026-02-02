@@ -48,7 +48,7 @@ class GoodsList extends StatelessWidget {
               ],
             ),
             trailing: Text(
-              'X ${viewModel?.cartCheckoutData?.checkedGoodsList?[index].number?.toString() ?? '0'}',
+              'x ${viewModel?.cartCheckoutData?.checkedGoodsList?[index].number?.toString() ?? '0'}',
               style: KtextStyle.mutedText,
             ),
           ),
