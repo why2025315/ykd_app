@@ -97,10 +97,11 @@ class _OrderCheckoutScreenState extends State<OrderCheckoutScreen> {
     );
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (context) => Stack(
         children: [
           Container(
-            height: 600,
+            height: MediaQuery.of(context).size.height * 0.65, // 占屏幕高度的70%
             width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.white,

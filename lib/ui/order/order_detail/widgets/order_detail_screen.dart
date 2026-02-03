@@ -33,7 +33,7 @@ class OrderDetailScreen extends StatelessWidget {
               children: [
                 Container(
                   color: Colors.white,
-                  margin: const EdgeInsets.only(bottom: 16),
+                  margin: const EdgeInsets.only(bottom: 8),
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +86,7 @@ class OrderDetailScreen extends StatelessWidget {
                 ),
                 Container(
                   color: Colors.white,
-                  margin: const EdgeInsets.only(bottom: 16),
+                  margin: const EdgeInsets.only(bottom: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 4,
@@ -147,16 +147,19 @@ class OrderDetailScreen extends StatelessWidget {
                                       height: 100,
                                     ),
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${goods?.goodsName ?? ''} x ${goods?.number ?? 0}',
-                                      ),
-                                      Text('￥${goods?.retailPrice ?? '0.00'}'),
-                                    ],
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(goods?.goodsName ?? ''),
+                                        Text(
+                                          '￥${goods?.retailPrice ?? '0.00'}',
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
