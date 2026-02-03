@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:ykd_tea_app/config/constants.dart';
 
 class CardCustom extends StatelessWidget {
-  const CardCustom({super.key, required this.child, this.title});
+  const CardCustom({
+    super.key,
+    required this.child,
+    this.title,
+    this.titleTailing,
+  });
 
   final Widget child;
   final String? title;
+  final Widget? titleTailing;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +35,14 @@ class CardCustom extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (title != null) Text(title!, style: KtextStyle.titleText),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (title != null) Text(title!, style: KtextStyle.titleText),
+                if (titleTailing != null) titleTailing!,
+              ],
+            ),
+
             SizedBox(height: 10),
             child,
           ],

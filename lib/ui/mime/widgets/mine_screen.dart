@@ -70,6 +70,12 @@ class _MineScreenState extends State<MineScreen> {
 
                 CardCustom(
                   title: '我的订单',
+                  titleTailing: TextButton(
+                    onPressed: () {
+                      context.push('${Routes.orderList}?showType=0');
+                    },
+                    child: Text('查看全部订单'),
+                  ),
                   child: Wrap(
                     spacing: 40,
                     runSpacing: 20,
@@ -78,28 +84,28 @@ class _MineScreenState extends State<MineScreen> {
                         icon: Image.asset('assets/images/to_pay.png'),
                         label: '待付款',
                         onTap: () {
-                          context.push('${Routes.orderList}?showType=0');
+                          context.push('${Routes.orderList}?showType=1');
                         },
                       ),
                       IconLabel(
                         icon: Image.asset('assets/images/pending_shipment.png'),
                         label: '待发货',
                         onTap: () {
-                          context.push('${Routes.orderList}?showType=1');
+                          context.push('${Routes.orderList}?showType=2');
                         },
                       ),
                       IconLabel(
                         icon: Image.asset('assets/images/pending_receipt.png'),
                         label: '待收货',
                         onTap: () {
-                          context.push('${Routes.orderList}?showType=2');
+                          context.push('${Routes.orderList}?showType=3');
                         },
                       ),
                       IconLabel(
                         icon: Image.asset('assets/images/finish.png'),
                         label: '已完成',
                         onTap: () {
-                          context.push('${Routes.orderList}?showType=3');
+                          context.push('${Routes.orderList}?showType=4');
                         },
                       ),
                     ],
