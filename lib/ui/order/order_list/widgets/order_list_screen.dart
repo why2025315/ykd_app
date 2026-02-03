@@ -108,7 +108,12 @@ class _OrderListScreenState extends State<OrderListScreen>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('订单编号：${order.orderSn}'),
+                    Expanded(
+                      child: Text(
+                        '订单编号：${order.orderSn}',
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                     Text(order.orderStatusText ?? ''),
                   ],
                 ),
