@@ -7,31 +7,39 @@ import 'package:ykd_tea_app/utils/result.dart';
 
 class AddressViewModel extends ChangeNotifier {
   final AddressService _addressService;
+  final AppShareState _appShareState;
   AddressViewModel({
     required AddressService addressService,
     required AppShareState appShareState,
-  }) : _addressService = addressService {
+  }) : _addressService = addressService,
+       _appShareState = appShareState {
     load = Command0(_fetchAddressList)..execute();
     delete = Command1(_deleteAddress);
+    _appShareState.addListener(_onLoginStateChanged);
+  }
+
+  @override
+  void dispose() {
+    _appShareState.removeListener(_onLoginStateChanged);
+    super.dispose();
+  }
+
+  void _onLoginStateChanged() {
+    // 当登录状态变化时，刷新地址列表
+    if (_appShareState.isLoggedIn) {
+      load.execute();
+    }
   }
 
   List<Address> _addressList = [];
-  int? _addressId;
+  int? addressId;
 
   late Command0<List<Address>> load;
   late Command1<dynamic, int> delete;
 
   List<Address> get addressList => _addressList;
-  int? get addressId => _addressId;
-  set addressId(int? value) {
-    _addressId = value;
-  }
 
-  String? _from;
-  String? get from => _from;
-  set from(String? value) {
-    _from = value;
-  }
+  String? from;
 
   Future<Result<List<Address>>> _fetchAddressList() async {
     try {
@@ -44,7 +52,6 @@ class AddressViewModel extends ChangeNotifier {
           }
         case Error():
           {
-            print(result.error);
             return result;
           }
       }

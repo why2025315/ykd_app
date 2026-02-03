@@ -6,22 +6,10 @@ import 'package:ykd_tea_app/domain/models/address/address.dart';
 import 'package:ykd_tea_app/routing/routes.dart';
 import 'package:ykd_tea_app/ui/address/view_models/address_view_model.dart';
 
-class AddressScreen extends StatefulWidget {
+class AddressScreen extends StatelessWidget {
   const AddressScreen({super.key, required this.viewModel});
 
   final AddressViewModel viewModel;
-
-  @override
-  State<AddressScreen> createState() => _AddressScreenState();
-}
-
-class _AddressScreenState extends State<AddressScreen> {
-  @override
-  initState() {
-    super.initState();
-
-    widget.viewModel.load.execute();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +20,14 @@ class _AddressScreenState extends State<AddressScreen> {
           children: [
             Divider(height: 1, color: Colors.black12),
             ListenableBuilder(
-              listenable: widget.viewModel,
+              listenable: viewModel,
               builder: (context, child) {
                 return ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: widget.viewModel.addressList.length,
+                  itemCount: viewModel.addressList.length,
                   itemBuilder: (context, index) {
-                    final Address address = widget.viewModel.addressList[index];
+                    final Address address = viewModel.addressList[index];
                     return Slidable(
                       key: Key(address.id.toString()),
                       endActionPane: ActionPane(
@@ -55,7 +43,7 @@ class _AddressScreenState extends State<AddressScreen> {
                               );
                               if (result != false) {
                                 // 如果返回非false值，表示地址已更新，刷新地址列表
-                                widget.viewModel.load.execute();
+                                viewModel.load.execute();
                               }
                             },
                             backgroundColor: primaryColor,
@@ -66,7 +54,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           SlidableAction(
                             onPressed: (context) {
                               // 删除地址
-                              widget.viewModel.delete.execute(address.id!);
+                              viewModel.delete.execute(address.id!);
                             },
                             backgroundColor: Colors.red,
                             foregroundColor: Colors.white,
@@ -80,11 +68,11 @@ class _AddressScreenState extends State<AddressScreen> {
                           '${address.name ?? ''} ${address.mobile ?? ''}',
                         ),
                         subtitle: Text(address.detailedAddress ?? ''),
-                        trailing: widget.viewModel.addressId == address.id
+                        trailing: viewModel.addressId == address.id
                             ? const Icon(Icons.check, color: primaryColor)
                             : null,
                         onTap: () {
-                          if (widget.viewModel.from == 'mine') {
+                          if (viewModel.from == 'mine') {
                             context.push<dynamic>(
                               Routes.addressAdd,
                               extra: address.id,
@@ -114,7 +102,7 @@ class _AddressScreenState extends State<AddressScreen> {
           final result = await context.push<dynamic>(Routes.addressAdd);
           if (result != false) {
             // 如果返回非false值，表示地址已更新，刷新地址列表
-            widget.viewModel.load.execute();
+            viewModel.load.execute();
           }
         },
         backgroundColor: primaryColor,
