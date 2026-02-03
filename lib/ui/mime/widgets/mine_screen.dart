@@ -114,25 +114,26 @@ class _MineScreenState extends State<MineScreen> {
                 SizedBox(height: 20),
                 CardCustom(
                   title: '更多服务',
-                  child: Wrap(
-                    spacing: 40,
-                    runSpacing: 20,
-                    // 禁用 GridView 的滚动
+                  child: GridView.count(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(16), // 整体内边距
+                    crossAxisCount: 3, // 核心：固定2列（横排数量）
+                    crossAxisSpacing: 12, // 列与列的间距
+                    mainAxisSpacing: 12, // 行与行的间距
+                    childAspectRatio: 1.2,
                     children: [
                       IconLabel(
                         icon: Image.asset('assets/images/coupon.png'),
                         label: '我的优惠券',
-                        width: 100,
                       ),
                       IconLabel(
                         icon: Image.asset('assets/images/footprint.png'),
                         label: '我的足迹',
-                        width: 100,
                       ),
                       IconLabel(
                         icon: Image.asset('assets/images/address.png'),
                         label: '我的地址',
-                        width: 100,
                         onTap: () {
                           context.push(Routes.address, extra: {'from': 'mine'});
                         },
@@ -140,12 +141,10 @@ class _MineScreenState extends State<MineScreen> {
                       IconLabel(
                         icon: Image.asset('assets/images/gift.png'),
                         label: '推广大使',
-                        width: 100,
                       ),
                       IconLabel(
                         icon: Image.asset('assets/images/consult.png'),
                         label: '合作咨询',
-                        width: 100,
                       ),
                     ],
                   ),

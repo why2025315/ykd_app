@@ -116,7 +116,9 @@ class OrderDetailScreen extends StatelessWidget {
                           vertical: 8.0,
                           horizontal: 16.0,
                         ),
-                        child: ListView.builder(
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) =>
+                              Divider(height: 1, color: Color(0xffF2F2F2)),
                           itemCount:
                               viewModel.orderDetail!.orderGoods?.length ?? 0,
                           shrinkWrap: true,
@@ -165,7 +167,7 @@ class OrderDetailScreen extends StatelessWidget {
                               ),
                               trailing: Text(
                                 'x ${goods?.number ?? 0}',
-                                style: TextStyle(fontSize: 14),
+                                style: TextStyle(fontSize: 16),
                               ),
                             );
                           },
