@@ -125,6 +125,9 @@ GoRouter router() => GoRouter(
         if (state.extra != null && state.extra is int?) {
           viewModel.addressId = state.extra as int;
         }
+        if (state.extra != null && state.extra is Map?) {
+          viewModel.from = (state.extra as Map?)?['from'] as String?;
+        }
         return AddressScreen(viewModel: viewModel);
       },
     ),

@@ -39,7 +39,7 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
       _mobileController.text = addressDetail.mobile ?? '';
       _addressController.text = addressDetail.address ?? '';
       setState(() {
-        _isDefault = addressDetail!.isDefault!;
+        _isDefault = addressDetail.isDefault!;
         _addressResult = AddressResult(
           provinceId: addressDetail.provinceId,
           provinceName: addressDetail.provinceName,
@@ -76,7 +76,9 @@ class _AddressAddScreenState extends State<AddressAddScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('添加地址')),
+      appBar: AppBar(
+        title: Text(widget.viewModel.addressDetail == null ? '新增地址' : '修改地址'),
+      ),
       body: SingleChildScrollView(
         child: Form(
           key: widget.viewModel.formKey,
