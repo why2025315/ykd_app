@@ -117,11 +117,10 @@ class _MineScreenState extends State<MineScreen> {
                   child: GridView.count(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(16), // 整体内边距
                     crossAxisCount: 3, // 核心：固定2列（横排数量）
-                    crossAxisSpacing: 12, // 列与列的间距
+                    crossAxisSpacing: 16, // 列与列的间距
                     mainAxisSpacing: 12, // 行与行的间距
-                    childAspectRatio: 1.2,
+                    childAspectRatio: 4 / 3,
                     children: [
                       IconLabel(
                         icon: Image.asset('assets/images/coupon.png'),
