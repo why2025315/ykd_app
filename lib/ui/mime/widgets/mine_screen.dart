@@ -134,7 +134,7 @@ class _MineScreenState extends State<MineScreen> {
                         label: '我的地址',
                         width: 100,
                         onTap: () {
-                          context.push(Routes.address);
+                          context.push(Routes.address, extra: {'from': 'mine'});
                         },
                       ),
                       IconLabel(

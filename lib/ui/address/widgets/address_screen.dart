@@ -43,7 +43,7 @@ class _AddressScreenState extends State<AddressScreen> {
                     return Slidable(
                       key: Key(address.id.toString()),
                       endActionPane: ActionPane(
-                        extentRatio: 0.3,
+                        extentRatio: 0.5,
                         motion: const ScrollMotion(),
                         children: [
                           SlidableAction(
@@ -84,6 +84,13 @@ class _AddressScreenState extends State<AddressScreen> {
                             ? const Icon(Icons.check, color: primaryColor)
                             : null,
                         onTap: () {
+                          if (widget.viewModel.from == 'mine') {
+                            context.push<dynamic>(
+                              Routes.addressAdd,
+                              extra: address.id,
+                            );
+                            return;
+                          }
                           Navigator.of(context).pop(address.id);
                         },
                       ),

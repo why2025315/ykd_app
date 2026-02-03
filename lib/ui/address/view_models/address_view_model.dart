@@ -25,7 +25,12 @@ class AddressViewModel extends ChangeNotifier {
   int? get addressId => _addressId;
   set addressId(int? value) {
     _addressId = value;
-    notifyListeners();
+  }
+
+  String? _from;
+  String? get from => _from;
+  set from(String? value) {
+    _from = value;
   }
 
   Future<Result<List<Address>>> _fetchAddressList() async {
