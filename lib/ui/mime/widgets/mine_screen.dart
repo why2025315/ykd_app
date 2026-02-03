@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ykd_tea_app/config/constants.dart';
 import 'package:ykd_tea_app/routing/routes.dart';
 import 'package:ykd_tea_app/ui/mime/view_models/mine_view_model.dart';
 import 'package:ykd_tea_app/ui/mime/widgets/card_custom.dart';
@@ -78,18 +77,30 @@ class _MineScreenState extends State<MineScreen> {
                       IconLabel(
                         icon: Image.asset('assets/images/to_pay.png'),
                         label: '待付款',
+                        onTap: () {
+                          context.push('${Routes.orderList}?showType=0');
+                        },
                       ),
                       IconLabel(
                         icon: Image.asset('assets/images/pending_shipment.png'),
                         label: '待发货',
+                        onTap: () {
+                          context.push('${Routes.orderList}?showType=1');
+                        },
                       ),
                       IconLabel(
                         icon: Image.asset('assets/images/pending_receipt.png'),
                         label: '待收货',
+                        onTap: () {
+                          context.push('${Routes.orderList}?showType=2');
+                        },
                       ),
                       IconLabel(
                         icon: Image.asset('assets/images/finish.png'),
                         label: '已完成',
+                        onTap: () {
+                          context.push('${Routes.orderList}?showType=3');
+                        },
                       ),
                     ],
                   ),
@@ -116,6 +127,9 @@ class _MineScreenState extends State<MineScreen> {
                         icon: Image.asset('assets/images/address.png'),
                         label: '我的地址',
                         width: 100,
+                        onTap: () {
+                          context.push(Routes.address);
+                        },
                       ),
                       IconLabel(
                         icon: Image.asset('assets/images/gift.png'),

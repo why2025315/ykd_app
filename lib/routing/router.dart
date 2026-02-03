@@ -24,13 +24,15 @@ import 'package:ykd_tea_app/ui/order/order_checkout/view_models/order_checkout_v
 import 'package:ykd_tea_app/ui/order/order_checkout/widgets/order_checkout_screen.dart';
 import 'package:ykd_tea_app/ui/order/order_detail/view_models/order_detail_view_model.dart';
 import 'package:ykd_tea_app/ui/order/order_detail/widgets/order_detail_screen.dart';
+import 'package:ykd_tea_app/ui/order/order_list/view_models/order_list_view_model.dart';
+import 'package:ykd_tea_app/ui/order/order_list/widgets/order_list_screen.dart';
 import 'package:ykd_tea_app/ui/sub_category/view_models/sub_category_view_model.dart';
 import 'package:ykd_tea_app/ui/sub_category/widgets/sub_category_screen.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 GoRouter router() => GoRouter(
-  initialLocation: '/order/detail/782',
+  initialLocation: Routes.home,
   navigatorKey: rootNavigatorKey,
   routes: [
     ShellRoute(
@@ -144,6 +146,18 @@ GoRouter router() => GoRouter(
         final viewModel = context.read<OrderDetailViewModel>();
         viewModel.setOrderId(int.parse(orderId!));
         return OrderDetailScreen(viewModel: viewModel);
+      },
+    ),
+    GoRoute(
+      path: Routes.orderList,
+      builder: (context, state) {
+        final viewModel = context.read<OrderListViewModel>();
+        final showType = state.uri.queryParameters['showType'];
+        if (showType != null) {
+          viewModel.showType = int.parse(showType);
+        }
+        // viewModel.setOrderId(int.parse(orderId!));
+        return OrderListScreen(viewModel: viewModel);
       },
     ),
     GoRoute(path: '/', redirect: (context, state) => Routes.home),

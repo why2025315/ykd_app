@@ -109,7 +109,22 @@ class AddressService {
 
   // 删除地址
   Future<dynamic> deleteAddress(int id) async {
-    return _client.post('/wx/address/delete', data: {'id': id});
+    try {
+      final response = await _client.post(
+        '/wx/address/delete',
+        data: {'id': id},
+      );
+      if (response.statusCode == 200) {
+        if (response.data['code'] != 0) {
+          return Result.error(Exception(response.data['msg']));
+        }
+        return Result.ok(response.data['data']);
+      } else {
+        return Result.error(Exception('请求失败'));
+      }
+    } on DioException catch (e) {
+      return Result.error(e);
+    }
   }
 
   // 获取Region列表

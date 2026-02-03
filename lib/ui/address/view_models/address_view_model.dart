@@ -12,12 +12,14 @@ class AddressViewModel extends ChangeNotifier {
     required AppShareState appShareState,
   }) : _addressService = addressService {
     load = Command0(_fetchAddressList)..execute();
+    delete = Command1(_deleteAddress);
   }
 
   List<Address> _addressList = [];
   int? _addressId;
 
   late Command0<List<Address>> load;
+  late Command1<dynamic, int> delete;
 
   List<Address> get addressList => _addressList;
   int? get addressId => _addressId;
@@ -41,6 +43,15 @@ class AddressViewModel extends ChangeNotifier {
             return result;
           }
       }
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<Result<dynamic>> _deleteAddress(int id) async {
+    try {
+      final result = await _addressService.deleteAddress(id);
+      return result;
     } finally {
       notifyListeners();
     }

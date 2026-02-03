@@ -66,6 +66,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           SlidableAction(
                             onPressed: (context) {
                               // 删除地址
+                              widget.viewModel.delete.execute(address.id!);
                             },
                             backgroundColor: Colors.red,
                             foregroundColor: Colors.white,
