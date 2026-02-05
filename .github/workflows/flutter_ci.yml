@@ -1,0 +1,42 @@
+name: Flutter Android CI
+
+on:
+  push:
+    branches: [ main, develop ]  # 推送到 main/develop 分支自动触发
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest  # Windows 环境（支持 Android 构建）
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 设置 Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.5'  # 你的 Flutter 版本
+          channel: 'stable'
+
+      - name: 安装 Ruby + fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.10'
+          bundler-cache: true
+
+      - name: 安装依赖
+        run: |
+          cd android
+          bundle install
+
+      - name: 构建并上传 APK
+        run: |
+          cd android
+          .\fastlane build_prod
+        env:
+          # 从 GitHub Secrets 读取敏感信息（避免硬编码）
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          PGYER_API_KEY: ${{ secrets.PGYER_API_KEY }}
+          PGYER_USER_KEY: ${{ secrets.PGYER_USER_KEY }}

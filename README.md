@@ -62,3 +62,4 @@ lib/
 4. 添加国际化支持
 5. flutter_screenutil 实现屏幕适配
 6. 集成fluwx 实现微信登录 支付、分享
+7. 持续构建

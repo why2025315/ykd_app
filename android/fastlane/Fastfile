@@ -1,0 +1,68 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :build_apk do
+     # 1. Flutter SDK 安装路径
+    flutter_sdk_path = "D:\\flutter"  # 例如 C:\\src\\flutter 或 D:\\Dev\\flutter
+    # 2. 签名文件路径和密码
+    keystore_path = "../app/release.keystore"  # 签名文件相对路径
+    keystore_password = ENV["KEYSTORE_PASSWORD"]
+    key_alias = ENV["KEY_ALIAS"]
+    key_password = ENV["KEY_PASSWORD"]
+    # 3. 蒲公英配置
+    pgyer_api_key = ENV["PGYER_API_KEY"]
+    pgyer_api_secret = ENV["PGYER_API_SECRET"]
+
+    # 4. 构建 APK
+    # 回到项目根目录执行 Flutter 命令
+    Dir.chdir("..") do
+      # 清理并构建 Release 包
+      sh "#{flutter_sdk_path}\\bin\\flutter clean"
+      sh "#{flutter_sdk_path}\\bin\\flutter pub get"
+      sh "#{flutter_sdk_path}\\bin\\flutter build apk --release"
+    end
+
+    # 5. 自动上传到蒲公英
+    # 告诉 fastlane 生成的 APK 路径
+    apk_path = "../build/app/outputs/flutter-apk/app-release.apk"
+    pgyer(
+      api_key: pgyer_api_key,
+      # user_key: pgyer_api_secret, 版本原因，无法配置
+      apk: apk_path,
+      update_description: "新的测试版本",
+      install_type: "1",
+      password: "123456",
+    )
+    lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = apk_path
+
+    # 打印成功信息
+    UI.success("✅ APK 构建成功！路径: " + File.expand_path(apk_path))
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean assembleRelease")
+    upload_to_play_store
+  end
+end
