@@ -32,7 +32,7 @@ jobs:
       - name: 构建并上传 APK
         run: |
           cd android
-          .\fastlane build_prod
+          bundle exec fastlane build_apk
         env:
           # 从 GitHub Secrets 读取敏感信息（避免硬编码）
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
