@@ -38,9 +38,9 @@ platform :android do
     # 回到项目根目录执行 Flutter 命令
     Dir.chdir("..") do
       # 清理并构建 Release 包
-      sh "#{flutter_sdk_path}\\bin\\flutter clean"
-      sh "#{flutter_sdk_path}\\bin\\flutter pub get"
-      sh "#{flutter_sdk_path}\\bin\\flutter build apk --release"
+      sh "flutter clean"
+      sh "flutter pub get"
+      sh "flutter build apk --release"
     end
 
     # 5. 自动上传到蒲公英
